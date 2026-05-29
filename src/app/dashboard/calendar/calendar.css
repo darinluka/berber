@@ -1,0 +1,311 @@
+/* Calendar Overrides for Dark/Light Mode Theme */
+
+.rbc-calendar {
+  font-family: var(--font-sans);
+  color: var(--foreground);
+}
+
+.rbc-header {
+  padding: 0.75rem 0;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.rbc-header + .rbc-header {
+  border-left: 1px solid var(--border) !important;
+}
+
+.rbc-month-view,
+.rbc-time-view,
+.rbc-agenda-view {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--background);
+}
+
+.rbc-day-bg + .rbc-day-bg {
+  border-left: 1px solid var(--border);
+}
+
+.rbc-month-row + .rbc-month-row {
+  border-top: 1px solid var(--border);
+}
+
+.rbc-time-header-content {
+  border-left: 1px solid var(--border) !important;
+}
+
+.rbc-time-content {
+  border-top: 1px solid var(--border) !important;
+}
+
+.rbc-timeslot-group {
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.rbc-day-slot .rbc-time-slot {
+  border-top: 1px solid var(--border);
+  opacity: 0.3;
+}
+
+.rbc-time-header {
+  background-color: var(--surface);
+}
+
+.rbc-time-column {
+  border-left: 1px solid var(--border) !important;
+}
+
+.rbc-toolbar button {
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 1rem;
+  background: var(--surface);
+  transition: all 0.2s ease;
+}
+
+.rbc-toolbar button:hover {
+  background: var(--surface-hover);
+}
+
+.rbc-toolbar button.rbc-active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  box-shadow: none;
+}
+
+.rbc-toolbar button.rbc-active:hover {
+  background: var(--primary-hover);
+}
+
+.rbc-today {
+  background-color: rgba(194, 149, 69, 0.05) !important;
+}
+
+.rbc-off-range-bg {
+  background-color: var(--surface);
+}
+
+.rbc-event {
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease;
+}
+
+.rbc-event:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.rbc-time-indicator {
+  background-color: var(--danger);
+  height: 2px;
+}
+.rbc-time-indicator::before {
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--danger);
+}
+
+/* ===== MOBILE CALENDAR FIXES ===== */
+@media (max-width: 768px) {
+  .rbc-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .rbc-toolbar-label {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .rbc-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+  .rbc-btn-group button {
+    flex: 1;
+    text-align: center;
+    padding: 0.4rem !important;
+    font-size: 0.8rem;
+  }
+  .rbc-event {
+    font-size: 0.75rem;
+    padding: 2px !important;
+  }
+  .rbc-time-view .rbc-header {
+    font-size: 0.75rem;
+    padding: 0.2rem;
+  }
+}
+
+/* ===== TWO-COLUMN LAYOUT ===== */
+.dashboard-calendar-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.calendar-sidebar {
+  width: 320px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.hover-bg-surface:hover {
+  background: var(--surface) !important;
+}
+
+/* Mobile responsive for the new layout */
+@media (max-width: 1024px) {
+  .dashboard-calendar-layout {
+    flex-direction: column;
+  }
+  .calendar-sidebar {
+    width: 100%;
+  }
+}
+
+/* ===== PREMIUM MODERN OVERRIDES FOR SPARKLE & BREATHING ROOM ===== */
+.rbc-calendar {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--background);
+}
+
+/* Give time slots more vertical breathing room (reduces crowded feeling) */
+.rbc-timeslot-group {
+  min-height: 72px !important;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.08) !important;
+}
+
+.rbc-time-content {
+  border-top: 2px solid var(--border) !important;
+}
+
+.rbc-time-gutter .rbc-timeslot-group {
+  border-bottom: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Style the default calendar slots beautifully */
+.rbc-day-bg {
+  transition: background-color 0.2s ease;
+}
+
+.rbc-day-bg:hover {
+  background-color: rgba(194, 149, 69, 0.02) !important;
+}
+
+/* Override default event borders and backgrounds */
+.rbc-event {
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+.rbc-event:hover {
+  transform: scale(1.02) translateY(-1px);
+  z-index: 10;
+}
+
+.rbc-event-content {
+  height: 100%;
+  font-family: var(--font-sans);
+}
+
+.rbc-day-slot .rbc-event-label {
+  display: none !important; /* Hide ugly raw text time labels */
+}
+
+/* Style headers beautifully */
+.rbc-header {
+  background: var(--surface) !important;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  border-bottom: 2px solid var(--border) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+}
+
+/* Toolbar enhancements */
+.rbc-toolbar {
+  margin-bottom: 1.5rem !important;
+  padding: 0.5rem;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  align-items: center;
+}
+
+.rbc-toolbar-label {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--foreground);
+}
+
+.rbc-btn-group button {
+  font-weight: 600;
+  font-size: 0.85rem !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  margin: 0 2px !important;
+  cursor: pointer;
+}
+
+.rbc-btn-group button.rbc-active {
+  background-color: var(--primary) !important;
+  color: #fff !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 4px 12px rgba(194, 149, 69, 0.25) !important;
+}
+
+/* Scrollbar styling for a super premium look */
+.rbc-time-content::-webkit-scrollbar {
+  width: 6px;
+}
+.rbc-time-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.rbc-time-content::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: var(--radius-full);
+}
+.rbc-time-content::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Grid cols 7 styling since Tailwind is not present in the custom framework */
+.grid-cols-7 {
+  display: grid !important;
+  grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+  width: 100% !important;
+  gap: 4px !important;
+}
+
+.calendar-sidebar .card {
+  padding: 1.25rem !important;
+  border-radius: var(--radius-lg);
+}
+
