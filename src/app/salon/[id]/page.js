@@ -3,7 +3,7 @@ import styles from "./salon.module.css";
 import { ThemeToggle } from "../../components/ThemeToggle";
 import { prisma } from "@/lib/prisma";
 
-export const dynamic = " force-dynamic;
+export const dynamic = "force-dynamic";
 import SalonClient from "./SalonClient";
 import { notFound } from "next/navigation";
 import Logo from "../../components/Logo";

@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 
-export const dynamic = " force-dynamic;
+export const dynamic = "force-dynamic";
 import { getBookings } from "@/app/actions/bookings";
 import CalendarView from "./CalendarView";
 

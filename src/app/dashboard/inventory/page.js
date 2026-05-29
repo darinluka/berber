@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { getInventory } from "@/app/actions/inventory";
 import { prisma } from "@/lib/prisma";
 
-export const dynamic = " force-dynamic;
+export const dynamic = "force-dynamic";
 import InventoryList from "./InventoryList";
 
 export default async function InventoryPage() {

@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { getFinances } from "@/app/actions/finance";
 import { prisma } from "@/lib/prisma";
 
-export const dynamic = " force-dynamic;
+export const dynamic = "force-dynamic";
 import FinanceList from "./FinanceList";
 
 export default async function FinancePage() {
