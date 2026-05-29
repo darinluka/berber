@@ -1,4 +1,4 @@
-import { PrismaClient } from "../generated/client";
+import { PrismaClient } from "@prisma/client";
 
 // Detyrojmë Next.js të rifreskojë lidhjen duke ndryshuar emrin e singleton
 const createNewPrismaClient = () => {
