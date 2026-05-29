@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { updatePassword } from "@/app/actions/users";
+import { updatePassword, getUserByEmail, updateUserAvatar } from "@/app/actions/users";
 import { getSalon, updateSalon } from "@/app/actions/salons";
 
 export default function DashboardSettings() {
@@ -14,15 +14,26 @@ export default function DashboardSettings() {
   const [closedDays, setClosedDays] = useState([]);
   const [closedDates, setClosedDates] = useState([]);
   const [newClosedDate, setNewClosedDate] = useState("");
+  const [userAvatar, setUserAvatar] = useState(null);
   const [socialMedia, setSocialMedia] = useState({
     instagram: "", facebook: "", tiktok: "", youtube: "", twitter: ""
   });
 
   useEffect(() => {
     async function loadSalon() {
-      const result = await getSalon();
-      if (result.success && result.salon) {
-        setSalon(result.salon);
+      const email = "salon@berberi.al"; // Hardcoded for demo MVP
+      const [salonResult, userResult] = await Promise.all([
+        getSalon(),
+        getUserByEmail(email)
+      ]);
+
+      if (userResult.success && userResult.user) {
+        setUserAvatar(userResult.user.image);
+      }
+
+      if (salonResult.success && salonResult.salon) {
+        const salonData = salonResult.salon;
+        setSalon(salonData);
         setWhatsapp(result.salon.whatsapp || "");
         setHeroImages([
           result.salon.heroImage1 || null,
@@ -54,6 +65,30 @@ export default function DashboardSettings() {
       alert("Gabim: " + result.error);
     }
     setSaving(false);
+  };
+
+  const handleAvatarUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 2 * 1024 * 1024) {
+      alert("Fotoja është shumë e madhe! Maksimumi është 2MB.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      setUserAvatar(reader.result);
+      setSavingSection('avatar');
+      const result = await updateUserAvatar("salon@berberi.al", reader.result);
+      if (result.success) {
+        alert("Avatari u përditësua me sukses!");
+      } else {
+        alert("Gabim: " + result.error);
+      }
+      setSavingSection(null);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleImageUpload = (index, e) => {
@@ -109,6 +144,48 @@ export default function DashboardSettings() {
       </div>
 
       <div className="grid gap-8" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))' }}>
+        {/* User Profile Section */}
+        <div className="card">
+          <h3 className="mb-6">👤 Profili i Përdoruesit</h3>
+          <p className="text-muted mb-6" style={{ fontSize: '0.85rem' }}>
+            Ndryshoni foton e profilit tuaj (Avatar). Kjo foto do të shfaqet në panelin e administrimit.
+          </p>
+          <div className="flex items-center gap-6 mb-6">
+            <div style={{ 
+              width: '100px', height: '100px', 
+              borderRadius: '50%', background: 'var(--surface-hover)', 
+              overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              border: '2px solid var(--border)'
+            }}>
+              {userAvatar ? (
+                <img src={userAvatar} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              ) : (
+                <span style={{ fontSize: '2.5rem' }}>👤</span>
+              )}
+            </div>
+            <div>
+              <label className="btn btn-secondary" style={{ cursor: 'pointer', padding: '0.5rem 1rem', display: 'inline-block' }}>
+                {savingSection === 'avatar' ? 'Duke u ngarkuar...' : (userAvatar ? 'Ndrysho Foton' : 'Ngarko Foto')}
+                <input type="file" hidden accept="image/*" onChange={handleAvatarUpload} disabled={savingSection === 'avatar'} />
+              </label>
+              {userAvatar && (
+                <button 
+                  onClick={async () => {
+                    if (confirm("Jeni të sigurt që doni ta fshini avatarin?")) {
+                      setUserAvatar(null);
+                      await updateUserAvatar("salon@berberi.al", null);
+                    }
+                  }}
+                  className="text-error block mt-2" 
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.85rem', padding: 0 }}
+                >
+                  Fshi foton
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
         {/* WhatsApp Settings */}
         <div className="card">
           <h3 className="mb-6">💬 Aktivizo WhatsApp</h3>

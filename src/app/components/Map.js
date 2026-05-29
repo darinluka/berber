@@ -17,9 +17,9 @@ const icon = L.icon({
   shadowSize: [41, 41]
 });
 
-// User location icon (Blue)
+// User location icon (Red)
 const userIcon = L.icon({
-  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
+  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
   shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
   iconSize: [25, 41],
   iconAnchor: [12, 41],
@@ -71,7 +71,7 @@ export default function Map({ salons, userLocation, isNearMeActive }) {
         {/* User Location Marker */}
         {userLocation && (
           <Marker position={[userLocation.lat, userLocation.lng]} icon={userIcon}>
-            <Popup className="premium-popup">📍 Ti je këtu</Popup>
+            <Popup className="premium-popup">📍 Vendodhja ime</Popup>
           </Marker>
         )}
 

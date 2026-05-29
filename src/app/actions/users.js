@@ -19,6 +19,31 @@ export async function updatePassword(email, newPassword) {
   }
 }
 
+export async function updateUserAvatar(email, imageBase64) {
+  try {
+    await prisma.user.update({
+      where: { email },
+      data: { image: imageBase64 }
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Avatar update error:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function getUserByEmail(email) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email }
+    });
+    return { success: true, user };
+  } catch (error) {
+    console.error("Fetch user error:", error);
+    return { success: false, error: error.message };
+  }
+}
+
 export async function updateUserByAdmin(id, data) {
   try {
     const updateData = {

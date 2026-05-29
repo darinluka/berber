@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import AdminReport from "./AdminReport";
 
 export default async function AdminOverview() {
   // Fetch real data for Super Admin
@@ -36,7 +37,7 @@ export default async function AdminOverview() {
           <h1 style={{ fontSize: '2rem' }}>Përmbledhje Globale</h1>
           <p className="text-muted">Statistikat e platformës Berberi.al në të gjithë Shqipërinë.</p>
         </div>
-        <button className="btn btn-primary">Gjenero Raport Global</button>
+        <AdminReport />
       </div>
 
       {/* Admin Stats Grid */}
