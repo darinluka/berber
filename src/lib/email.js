@@ -16,7 +16,7 @@ async function sendMail({ to, subject, text, html }) {
     try {
       const t = createTransporter();
       const info = await t.sendMail({
-        from: process.env.SMTP_FROM || `"Berberi.al" <${process.env.SMTP_USER}>`,
+        from: process.env.SMTP_FROM || `"Berber.al" <${process.env.SMTP_USER}>`,
         to, subject, text, html,
       });
       console.log(`[EMAIL] Sent to ${to} — ${info.messageId}`);
@@ -37,14 +37,14 @@ const LOGO_HTML = `<h1 style="color:#c29545;font-size:1.6rem;margin:0;">Berberi<
 
 const FOOTER_HTML = `
   <div style="margin-top:32px;padding-top:16px;border-top:1px solid #f1f5f9;text-align:center;">
-    <p style="font-size:0.8rem;color:#94a3b8;margin:0;">© 2026 Berberi.al – Të gjitha të drejtat e rezervuara.</p>
+    <p style="font-size:0.8rem;color:#94a3b8;margin:0;">© 2026 Berber.al – Të gjitha të drejtat e rezervuara.</p>
   </div>`;
 
 // ─── 1. OTP Email ──────────────────────────────────────────────────────────────
 export async function sendOtpEmail(email, code) {
   return sendMail({
     to: email,
-    subject: `Kodi juaj i verifikimit – Berberi.al`,
+    subject: `Kodi juaj i verifikimit – Berber.al`,
     text: `Kodi juaj: ${code}\nSkadon pas 10 minutash.`,
     html: `
     <div style="font-family:Arial,sans-serif;max-width:480px;margin:0 auto;padding:32px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;color:#1e293b;">
@@ -176,14 +176,14 @@ export async function sendSalonApprovalEmail(email, salonName) {
 
   return sendMail({
     to: email,
-    subject: `🎉 Salloni juaj u aprovua! – Berberi.al`,
+    subject: `🎉 Salloni juaj u aprovua! – Berber.al`,
     text: `Salloni "${salonName}" u aprovua! Hyni në dashboard: ${appUrl}/dashboard`,
     html: `
     <div style="font-family:Arial,sans-serif;max-width:480px;margin:0 auto;padding:32px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;color:#1e293b;">
       <div style="text-align:center;margin-bottom:24px;">${LOGO_HTML}</div>
       <h2 style="text-align:center;font-size:1.25rem;color:#10b981;margin-bottom:8px;">🎉 Salloni juaj u aprovua!</h2>
       <p style="color:#64748b;line-height:1.6;margin-bottom:24px;text-align:center;">
-        Salloni <strong>${salonName}</strong> është aprovuar nga administratori i Berberi.al!
+        Salloni <strong>${salonName}</strong> është aprovuar nga administratori i Berber.al!
       </p>
       <div style="background:#f8fafc;border-radius:8px;padding:20px;border-left:4px solid #10b981;margin-bottom:24px;">
         <p style="margin:0 0 10px;color:#334155;font-size:0.95rem;">Tani mund të hyni në dashboard-in tuaj për të:</p>

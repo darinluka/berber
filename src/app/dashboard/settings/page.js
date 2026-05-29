@@ -21,7 +21,7 @@ export default function DashboardSettings() {
 
   useEffect(() => {
     async function loadSalon() {
-      const email = "salon@berberi.al"; // Hardcoded for demo MVP
+      const email = "salon@berber.al"; // Hardcoded for demo MVP
       const [salonResult, userResult] = await Promise.all([
         getSalon(),
         getUserByEmail(email)
@@ -57,7 +57,7 @@ export default function DashboardSettings() {
   const handlePasswordChange = async (e) => {
     e.preventDefault();
     setSaving(true);
-    const result = await updatePassword("salon@berberi.al", password);
+    const result = await updatePassword("salon@berber.al", password);
     if (result.success) {
       alert("Fjalëkalimi u ndryshua me sukses!");
       setPassword("");
@@ -80,7 +80,7 @@ export default function DashboardSettings() {
     reader.onloadend = async () => {
       setUserAvatar(reader.result);
       setSavingSection('avatar');
-      const result = await updateUserAvatar("salon@berberi.al", reader.result);
+      const result = await updateUserAvatar("salon@berber.al", reader.result);
       if (result.success) {
         alert("Avatari u përditësua me sukses!");
       } else {
@@ -173,7 +173,7 @@ export default function DashboardSettings() {
                   onClick={async () => {
                     if (confirm("Jeni të sigurt që doni ta fshini avatarin?")) {
                       setUserAvatar(null);
-                      await updateUserAvatar("salon@berberi.al", null);
+                      await updateUserAvatar("salon@berber.al", null);
                     }
                   }}
                   className="text-error block mt-2" 

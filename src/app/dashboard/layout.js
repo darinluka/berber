@@ -121,7 +121,7 @@ export default function DashboardLayout({ children }) {
               marginBottom: "2rem",
               marginTop: 0
             }}>
-              Salloni juaj <strong style={{ color: "var(--foreground)" }}>{salon?.name || "Berberi"}</strong> është regjistruar me sukses dhe është në proces verifikimi nga ekipi i <strong style={{ color: "var(--primary)" }}>Berberi.al</strong>.
+              Salloni juaj <strong style={{ color: "var(--foreground)" }}>{salon?.name || "Berberi"}</strong> është regjistruar me sukses dhe është në proces verifikimi nga ekipi i <strong style={{ color: "var(--primary)" }}>Berber.al</strong>.
               <br /><br />
               Ju lutem prisni konfirmimin e administratorit. Do të njoftoheni me email sapo salloni juaj të aprovohet.
             </p>
@@ -180,7 +180,7 @@ export default function DashboardLayout({ children }) {
               {isCollapsed ? (
                 <div style={{ fontWeight: 800, color: 'var(--primary)', fontSize: '1.5rem' }}>B.</div>
               ) : (
-                <Logo initialTitle="Berberi.al" />
+                <Logo initialTitle="Berber.al" />
               )}
             </Link>
           </div>

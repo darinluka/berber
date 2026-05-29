@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getSalon } from "@/app/actions/salons";
 import { prisma } from "@/lib/prisma";
+
+export const dynamic = " force-dynamic;
 import TipCard from "./TipCard";
 import DashboardBookingsList from "./DashboardBookingsList";
 

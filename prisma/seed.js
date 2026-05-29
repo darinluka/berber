@@ -41,7 +41,7 @@ async function main() {
   // Create Users (Barbers and Owner) for Salon 1
   await prisma.user.create({
     data: {
-      email: "salon@berberi.al",
+      email: "salon@berber.al",
       name: "Arben Hoxha",
       password: "password123",
       role: "SALON_OWNER",
@@ -51,7 +51,7 @@ async function main() {
 
   await prisma.user.create({
     data: {
-      email: "barber1@berberi.al",
+      email: "barber1@berber.al",
       name: "Beni",
       password: "password123",
       role: "BARBER",

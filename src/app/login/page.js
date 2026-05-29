@@ -135,7 +135,7 @@ export default function Login() {
       <div className={styles.loginCard}>
         <div className={styles.logo} style={{ display: "flex", justifyContent: "center" }}>
           <Link href="/">
-            <Logo initialTitle="Berberi.al" />
+            <Logo initialTitle="Berber.al" />
           </Link>
         </div>
 
@@ -358,7 +358,7 @@ export default function Login() {
             <div className="text-center mb-6">
               <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" width="32" style={{ marginBottom: '1rem' }} />
               <h2 style={{ fontSize: '1.25rem', color: '#1a1a1a', margin: '0 0 0.25rem 0', fontWeight: 700 }}>Zgjidh një llogari</h2>
-              <p style={{ fontSize: '0.85rem', color: '#5f6368', margin: 0 }}>për të vazhduar në Berberi.al</p>
+              <p style={{ fontSize: '0.85rem', color: '#5f6368', margin: 0 }}>për të vazhduar në Berber.al</p>
             </div>
 
             {!showCustomGoogleForm ? (

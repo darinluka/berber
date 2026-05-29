@@ -115,9 +115,9 @@ model Inventory {
 
 model GlobalSettings {
   id           String   @id @default("global")
-  siteTitle    String   @default("Berberi.al")
+  siteTitle    String   @default("Berber.al")
   headerText   String?
-  footerText   String   @default("© 2026 Berberi.al. Të gjitha të drejtat e rezervuara.")
-  contactEmail String   @default("info@berberi.al")
+  footerText   String   @default("© 2026 Berber.al. Të gjitha të drejtat e rezervuara.")
+  contactEmail String   @default("info@berber.al")
   updatedAt    DateTime @updatedAt
 }

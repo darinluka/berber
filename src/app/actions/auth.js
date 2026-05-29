@@ -144,7 +144,7 @@ export async function loginUser(email, password) {
     }
 
     // Hardcoded admin login
-    if (email === "admin@berberi.al" && password === "admin") {
+    if (email === "admin@berber.al" && password === "admin") {
       const cookieStore = await cookies();
       cookieStore.set("currentUserRole", "ADMIN", { path: "/", maxAge: 60 * 60 * 24 * 7 });
       return { success: true, role: "ADMIN", redirectTo: "/admin" };

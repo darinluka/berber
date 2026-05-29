@@ -53,7 +53,7 @@ export default async function Footer() {
               Kontakt
             </h4>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-              📧 {settings?.contactEmail || 'info@berberi.al'}
+              📧 {settings?.contactEmail || 'info@berber.al'}
             </p>
           </div>
         </div>

@@ -6,10 +6,10 @@ import { updatePassword } from "@/app/actions/users";
 
 export default function AdminSettings() {
   const [settings, setSettings] = useState({
-    siteTitle: "Berberi.al",
+    siteTitle: "Berber.al",
     headerText: "",
-    footerText: "© 2026 Berberi.al. Të gjitha të drejtat e rezervuara.",
-    contactEmail: "info@berberi.al"
+    footerText: "© 2026 Berber.al. Të gjitha të drejtat e rezervuara.",
+    contactEmail: "info@berber.al"
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -41,7 +41,7 @@ export default function AdminSettings() {
     <div className="fade-in">
       <div className="mb-8">
         <h1 style={{ fontSize: '2rem' }}>Cilësimet Globale</h1>
-        <p className="text-muted">Menaxhoni tekstet dhe konfigurimet kryesore të platformës Berberi.al.</p>
+        <p className="text-muted">Menaxhoni tekstet dhe konfigurimet kryesore të platformës Berber.al.</p>
       </div>
 
       <div className="grid gap-8" style={{ gridTemplateColumns: '1.5fr 1fr' }}>
@@ -99,7 +99,7 @@ export default function AdminSettings() {
             e.preventDefault();
             const pass = e.target.password.value;
             if (!pass) return;
-            const res = await updatePassword("admin@berberi.al", pass);
+            const res = await updatePassword("admin@berber.al", pass);
             if (res.success) {
               alert("Fjalëkalimi u ndryshua me sukses!");
               e.target.reset();

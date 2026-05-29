@@ -15,7 +15,7 @@ const outfit = Outfit({
 import { ThemeProvider } from "./theme-provider";
 
 export const metadata = {
-  title: "Berberi.al - Rezervoni Berberin Tuaj Ideal në Tiranë",
+  title: "Berber.al - Rezervoni Berberin Tuaj Ideal në Tiranë",
   description: "Platforma #1 në Shqipëri për menaxhimin dhe rezervimin e salloneve të bukurisë. Gjeni berberët më të mirë, shikoni vlerësimet dhe rezervoni orarin tuaj online.",
   keywords: "berber, tirana, rezervime, salon, beauty, shqiperi, haircut, men grooming",
 };

@@ -19,7 +19,7 @@ export default function RegisterSalon() {
 
   const googleAccounts = [
     { name: "Altin Duka", email: "altin.duka@gmail.com", img: "https://i.pravatar.cc/150?u=altin" },
-    { name: "Admin Berberi", email: "admin@berberi.al", img: "https://i.pravatar.cc/150?u=admin" },
+    { name: "Admin Berberi", email: "admin@berber.al", img: "https://i.pravatar.cc/150?u=admin" },
   ];
 
   const [formData, setFormData] = useState({
@@ -239,7 +239,7 @@ export default function RegisterSalon() {
               <div className="text-center mb-8">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" width="32" style={{ marginBottom: '1rem' }} />
                 <h2 style={{ fontSize: '1.25rem', color: '#1a1a1a', margin: '0 0 0.5rem 0' }}>Zgjidh një llogari</h2>
-                <p style={{ fontSize: '0.9rem', color: '#5f6368', margin: 0 }}>për të vazhduar në Berberi.al</p>
+                <p style={{ fontSize: '0.9rem', color: '#5f6368', margin: 0 }}>për të vazhduar në Berber.al</p>
               </div>
 
               <div className="grid gap-2">
@@ -269,7 +269,7 @@ export default function RegisterSalon() {
 
         <div className="text-center mb-12">
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
-            <Logo initialTitle="Berberi.al" />
+            <Logo initialTitle="Berber.al" />
           </div>
           <h1 style={{ fontSize: '2.25rem', fontWeight: 800, letterSpacing: '-0.02em' }}>Regjistrim Salloni</h1>
           <p className="text-muted mt-3" style={{ fontSize: '1.1rem' }}>Shtoni sallonin tuaj në platformën më të madhe në Shqipëri.</p>

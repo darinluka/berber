@@ -2,6 +2,8 @@ import Link from "next/link";
 import styles from "./salon.module.css";
 import { ThemeToggle } from "../../components/ThemeToggle";
 import { prisma } from "@/lib/prisma";
+
+export const dynamic = " force-dynamic;
 import SalonClient from "./SalonClient";
 import { notFound } from "next/navigation";
 import Logo from "../../components/Logo";
@@ -38,7 +40,7 @@ export default async function SalonPage({ params }) {
       }}>
         <div className="container flex items-center justify-between" style={{ padding: '0.75rem 1.5rem' }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <Logo initialTitle="Berberi.al" />
+            <Logo initialTitle="Berber.al" />
           </Link>
           <div className="flex gap-4 items-center">
             <Link href="/" className="text-muted" style={{ fontSize: '0.9rem' }}>← Faqja Kryesore</Link>

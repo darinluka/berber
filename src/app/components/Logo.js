@@ -10,7 +10,7 @@ export default function Logo({ initialTitle }) {
       {!error ? (
         <img 
           src="/logo.png" 
-          alt="Berberi.al Logo" 
+          alt="Berber.al Logo" 
           className="logo-img"
           style={{ height: '160px', width: 'auto', objectFit: 'contain' }}
           onError={() => setError(true)}

@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/prisma";
+
+export const dynamic = " force-dynamic;
 import Link from "next/link";
 import AdminReport from "./AdminReport";
 
@@ -35,7 +37,7 @@ export default async function AdminOverview() {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 style={{ fontSize: '2rem' }}>Përmbledhje Globale</h1>
-          <p className="text-muted">Statistikat e platformës Berberi.al në të gjithë Shqipërinë.</p>
+          <p className="text-muted">Statistikat e platformës Berber.al në të gjithë Shqipërinë.</p>
         </div>
         <AdminReport />
       </div>

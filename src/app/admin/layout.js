@@ -22,7 +22,7 @@ export default function AdminLayout({ children }) {
       <aside className={styles.sidebar} style={{ borderRight: '2px solid var(--primary)' }}>
         <div className={styles.logo} style={{ padding: '2rem 1rem' }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <Logo initialTitle="Berberi.al" />
+            <Logo initialTitle="Berber.al" />
           </Link>
         </div>
         <nav className={styles.nav}>
