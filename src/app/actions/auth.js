@@ -78,7 +78,7 @@ export async function registerSalonOwner(data) {
     }
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
-    if (existingUser) {
+    if (existingUser && existingUser.role !== "CLIENT") {
       return { success: false, error: "Ky email është regjistruar tashmë. Ju lutem identifikohuni ose përdorni një email tjetër." };
     }
 
@@ -100,21 +100,35 @@ export async function registerSalonOwner(data) {
       },
     });
 
-    // Hash fjalëkalimin
+    // Hash fjalëkalimin vetëm nëse s'ka përdorues ekzistues me fjalëkalim, ose nëse jepet i ri
     const hashedPassword = password
       ? await bcrypt.hash(password, 12)
-      : await bcrypt.hash(Math.random().toString(36).slice(-12), 12);
+      : (existingUser?.password || await bcrypt.hash(Math.random().toString(36).slice(-12), 12));
 
-    const user = await prisma.user.create({
-      data: {
-        email,
-        name: name || salonName,
-        password: hashedPassword,
-        role: "SALON_OWNER",
-        salonId: salon.id,
-        phone: phone || null,
-      },
-    });
+    let user;
+    if (existingUser) {
+      user = await prisma.user.update({
+        where: { id: existingUser.id },
+        data: {
+          name: name || salonName,
+          password: hashedPassword,
+          role: "SALON_OWNER",
+          salonId: salon.id,
+          phone: phone || existingUser.phone || null,
+        },
+      });
+    } else {
+      user = await prisma.user.create({
+        data: {
+          email,
+          name: name || salonName,
+          password: hashedPassword,
+          role: "SALON_OWNER",
+          salonId: salon.id,
+          phone: phone || null,
+        },
+      });
+    }
 
     const cookieStore = await cookies();
     cookieStore.set("currentSalonId", salon.id, {
