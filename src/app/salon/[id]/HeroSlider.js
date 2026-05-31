@@ -60,7 +60,7 @@ export default function HeroSlider({ salon }) {
         <h1 className={styles.title}>{salon.name}</h1>
         <div className={styles.meta}>
           <span>📍 {salon.address}</span>
-          <span>⭐ 4.9 (120 Vlerësime)</span>
+          <span>⭐ {salon.rating || 0} ({salon.reviewsCount || 0} Vlerësime)</span>
           <span>📞 {salon.phone || "+355 69 XX XX XXX"}</span>
         </div>
         
