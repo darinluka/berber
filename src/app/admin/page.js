@@ -36,7 +36,7 @@ export default async function AdminOverview() {
     <div className="fade-in">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 style={{ fontSize: '2rem' }}>Përmbledhje Globale</h1>
+          <h1 style={{ fontSize: '2rem' }}>Përmbledhje Totale</h1>
           <p className="text-muted">Statistikat e platformës Berber.al në të gjithë Shqipërinë.</p>
         </div>
         <AdminReport />

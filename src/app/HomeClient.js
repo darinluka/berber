@@ -281,8 +281,12 @@ export default function HomeClient({ initialSalons }) {
               Nëse jeni admin, kontrolloni seksionin e aprovimeve.
             </p>
             <div className="flex justify-center gap-4">
-              <button className="btn btn-secondary" onClick={() => setSearchTerm("")}>Pastro kërkimin</button>
-              <Link href="/admin/salons" className="btn btn-primary">Paneli i Adminit</Link>
+              {initialSalons.length > 0 && (
+                <>
+                  <button className="btn btn-secondary" onClick={() => setSearchTerm("")}>Pastro kërkimin</button>
+                  <Link href="/admin/salons" className="btn btn-primary">Paneli i Adminit</Link>
+                </>
+              )}
             </div>
           </div>
         )}
