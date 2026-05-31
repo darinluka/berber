@@ -3,6 +3,10 @@
 import { useState, useEffect } from "react";
 import { updatePassword, getUserByEmail, updateUserAvatar } from "@/app/actions/users";
 import { getSalon, updateSalon } from "@/app/actions/salons";
+import dynamic from "next/dynamic";
+
+// Dynamically import MapPicker with no SSR to avoid window is not defined error
+const MapPicker = dynamic(() => import("@/app/components/MapPicker"), { ssr: false });
 
 export default function DashboardSettings() {
   const [saving, setSaving] = useState(false);
@@ -15,6 +19,7 @@ export default function DashboardSettings() {
   const [closedDates, setClosedDates] = useState([]);
   const [newClosedDate, setNewClosedDate] = useState("");
   const [userAvatar, setUserAvatar] = useState(null);
+  const [location, setLocation] = useState({ lat: null, lng: null });
   const [socialMedia, setSocialMedia] = useState({
     instagram: "", facebook: "", tiktok: "", youtube: "", twitter: ""
   });
@@ -34,20 +39,21 @@ export default function DashboardSettings() {
       if (salonResult.success && salonResult.salon) {
         const salonData = salonResult.salon;
         setSalon(salonData);
-        setWhatsapp(result.salon.whatsapp || "");
+        setWhatsapp(salonData.whatsapp || "");
         setHeroImages([
-          result.salon.heroImage1 || null,
-          result.salon.heroImage2 || null,
-          result.salon.heroImage3 || null
+          salonData.heroImage1 || null,
+          salonData.heroImage2 || null,
+          salonData.heroImage3 || null
         ]);
-        setClosedDays(result.salon.closedDays ? result.salon.closedDays.split(',') : []);
-        setClosedDates(result.salon.closedDates ? result.salon.closedDates.split(',') : []);
+        setLocation({ lat: salonData.lat || 41.3275, lng: salonData.lng || 19.8189 });
+        setClosedDays(salonData.closedDays ? salonData.closedDays.split(',') : []);
+        setClosedDates(salonData.closedDates ? salonData.closedDates.split(',') : []);
         setSocialMedia({
-          instagram: result.salon.instagram || "",
-          facebook: result.salon.facebook || "",
-          tiktok: result.salon.tiktok || "",
-          youtube: result.salon.youtube || "",
-          twitter: result.salon.twitter || "",
+          instagram: salonData.instagram || "",
+          facebook: salonData.facebook || "",
+          tiktok: salonData.tiktok || "",
+          youtube: salonData.youtube || "",
+          twitter: salonData.twitter || "",
         });
       }
     }
@@ -121,6 +127,8 @@ export default function DashboardSettings() {
       heroImage3: heroImages[2],
       closedDays: closedDays.join(','),
       closedDates: closedDates.join(','),
+      lat: location.lat,
+      lng: location.lng,
       instagram: socialMedia.instagram.trim() || null,
       facebook: socialMedia.facebook.trim() || null,
       tiktok: socialMedia.tiktok.trim() || null,
@@ -223,6 +231,24 @@ export default function DashboardSettings() {
           )}
           <button onClick={() => handleSaveSalon('whatsapp')} className="btn btn-primary w-full" disabled={savingSection !== null}>
             {savingSection === 'whatsapp' ? "Duke u ruajtur..." : "Ruaj Numrin e WhatsApp ✨"}
+          </button>
+        </div>
+
+        {/* Location Section */}
+        <div className="card">
+          <h3 className="mb-6">📍 Vendndodhja (Harta)</h3>
+          <p className="text-muted mb-6" style={{ fontSize: '0.85rem' }}>
+            Lëvizni pikën në hartë për të përcaktuar vendndodhjen e saktë të sallonit tuaj.
+          </p>
+          <div className="mb-6">
+            <MapPicker 
+              defaultLat={location.lat} 
+              defaultLng={location.lng} 
+              onChange={(lat, lng) => setLocation({ lat, lng })}
+            />
+          </div>
+          <button onClick={() => handleSaveSalon('location')} className="btn btn-primary w-full" disabled={savingSection !== null}>
+            {savingSection === 'location' ? 'Duke u ruajtur...' : 'Ruaj Vendndodhjen ✨'}
           </button>
         </div>
 

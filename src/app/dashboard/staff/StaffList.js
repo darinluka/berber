@@ -1,19 +1,75 @@
 "use client";
 
 import { useState } from "react";
+import { createStaff, updateStaff } from "@/app/actions/staff";
 
 export default function StaffList({ initialStaff, salonId }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingStaff, setEditingStaff] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
+  
+  // Local state for staff to immediately show updates
+  const [staffList, setStaffList] = useState(initialStaff || []);
 
-  const filteredStaff = initialStaff.filter(s => 
+  const filteredStaff = staffList.filter(s => 
     s.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const openModal = (staff = null) => {
     setEditingStaff(staff);
     setIsModalOpen(true);
+  };
+
+  const handleSaveStaff = async (e) => {
+    e.preventDefault();
+    setIsSaving(true);
+    
+    const formData = new FormData(e.target);
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email") || undefined,
+      role: formData.get("role"),
+      image: formData.get("image") || undefined,
+    };
+
+    try {
+      if (editingStaff) {
+        const res = await updateStaff(editingStaff.id, data, salonId);
+        if (res.success) {
+          setStaffList(prev => prev.map(s => s.id === editingStaff.id ? { ...s, ...data } : s));
+          setIsModalOpen(false);
+          alert("Stafi u përditësua me sukses!");
+        } else {
+          alert(res.error || "Përditësimi dështoi.");
+        }
+      } else {
+        const res = await createStaff(data, salonId);
+        if (res.success) {
+          const newStaffMember = {
+            id: res.staff.id,
+            name: res.staff.name,
+            role: "Barber", 
+            email: res.staff.email,
+            phone: "I panjohur",
+            bookings: 0,
+            rating: 0,
+            status: "Aktiv",
+            image: res.staff.image || "https://images.unsplash.com/photo-1618077360395-f3068be8e001?w=200",
+            salary: "60,000 L"
+          };
+          setStaffList(prev => [...prev, newStaffMember]);
+          setIsModalOpen(false);
+          alert("Stafi i ri u shtua me sukses!");
+        } else {
+          alert(res.error || "Shtimi dështoi.");
+        }
+      }
+    } catch (error) {
+      alert("Ndodhi një gabim gjatë ruajtjes.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -85,6 +141,12 @@ export default function StaffList({ initialStaff, salonId }) {
             </div>
           </div>
         ))}
+        
+        {filteredStaff.length === 0 && (
+          <div className="col-span-full text-center py-12 text-muted">
+            <p>Nuk u gjet asnjë berber. Shtoni një berber të ri.</p>
+          </div>
+        )}
       </div>
 
       {/* Modal */}
@@ -95,22 +157,30 @@ export default function StaffList({ initialStaff, salonId }) {
               <h2 style={{ margin: 0 }}>{editingStaff ? "Edito Berberin" : "Shto Berber të Ri"}</h2>
               <button onClick={() => setIsModalOpen(false)} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: 'var(--text-muted)' }}>×</button>
             </div>
-            <form onSubmit={(e) => { e.preventDefault(); setIsModalOpen(false); alert("Stafi u përditësua!"); }} className="grid gap-4">
+            <form onSubmit={handleSaveStaff} className="grid gap-4">
               <div>
                 <label className="text-muted" style={{ display: 'block', marginBottom: '0.4rem', fontSize: '0.8rem' }}>Emri i Plotë</label>
-                <input type="text" className="card" style={{ width: '100%', padding: '0.8rem', background: 'var(--background)' }} defaultValue={editingStaff?.name || ""} required />
+                <input type="text" name="name" className="card" style={{ width: '100%', padding: '0.8rem', background: 'var(--background)' }} defaultValue={editingStaff?.name || ""} required />
               </div>
+              {!editingStaff && (
+                <div>
+                  <label className="text-muted" style={{ display: 'block', marginBottom: '0.4rem', fontSize: '0.8rem' }}>Email Adresa (Opsionale - për t'i dhënë akses)</label>
+                  <input type="email" name="email" className="card" style={{ width: '100%', padding: '0.8rem', background: 'var(--background)' }} placeholder="berberi@email.com" />
+                </div>
+              )}
               <div>
                 <label className="text-muted" style={{ display: 'block', marginBottom: '0.4rem', fontSize: '0.8rem' }}>Roli / Pozicioni</label>
-                <input type="text" className="card" style={{ width: '100%', padding: '0.8rem', background: 'var(--background)' }} defaultValue={editingStaff?.role || "Master Barber"} required />
+                <input type="text" name="role" className="card" style={{ width: '100%', padding: '0.8rem', background: 'var(--background)' }} defaultValue={editingStaff?.role || "Master Barber"} required />
               </div>
               <div>
                 <label className="text-muted" style={{ display: 'block', marginBottom: '0.4rem', fontSize: '0.8rem' }}>URL e Fotos (Opsionale)</label>
-                <input type="text" className="card" style={{ width: '100%', padding: '0.8rem', background: 'var(--background)' }} placeholder="https://..." />
+                <input type="text" name="image" className="card" style={{ width: '100%', padding: '0.8rem', background: 'var(--background)' }} defaultValue={editingStaff?.image || ""} placeholder="https://..." />
               </div>
               <div className="flex gap-4 mt-6">
-                <button type="button" className="btn btn-secondary flex-1" onClick={() => setIsModalOpen(false)}>Anulo</button>
-                <button type="submit" className="btn btn-primary flex-1">{editingStaff ? "Ruaj" : "Shto"}</button>
+                <button type="button" className="btn btn-secondary flex-1" onClick={() => setIsModalOpen(false)} disabled={isSaving}>Anulo</button>
+                <button type="submit" className="btn btn-primary flex-1" disabled={isSaving}>
+                  {isSaving ? "Duke Ruajtur..." : (editingStaff ? "Ruaj" : "Shto")}
+                </button>
               </div>
             </form>
           </div>
