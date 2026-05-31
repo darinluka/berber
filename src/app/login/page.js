@@ -7,6 +7,22 @@ import { useState, useEffect } from "react";
 import Logo from "../components/Logo";
 import { loginUser, loginOrRegisterWithGoogle } from "../actions/auth";
 
+function parseJwt(token) {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    );
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    return null;
+  }
+}
+
 export default function Login() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -60,6 +76,81 @@ export default function Login() {
       router.push(result.redirectTo || "/");
     } catch (err) {
       setError("Gabim i papritur. Provo sërish.");
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const initGoogle = () => {
+        if (window.google) {
+          window.google.accounts.id.initialize({
+            client_id: "128311836545-fomqs5niutugs5vv7fg564ll123mhi6t.apps.googleusercontent.com",
+            callback: handleGoogleCredentialResponse,
+          });
+
+          window.google.accounts.id.renderButton(
+            document.getElementById("realGoogleButton"),
+            { 
+              theme: "outline", 
+              size: "large", 
+              width: "100%", 
+              text: "continue_with",
+              shape: "rectangular"
+            }
+          );
+        } else {
+          setTimeout(initGoogle, 300);
+        }
+      };
+      initGoogle();
+    }
+  }, []);
+
+  const handleGoogleCredentialResponse = async (response) => {
+    setIsLoading(true);
+    setError("");
+    try {
+      const payload = parseJwt(response.credential);
+      if (!payload) {
+        setError("Dështoi dekodimi i të dhënave të Google.");
+        setIsLoading(false);
+        return;
+      }
+
+      const googleId = `google_id_${payload.sub}`;
+      const result = await loginOrRegisterWithGoogle({
+        googleId,
+        email: payload.email,
+        name: payload.name,
+        image: payload.picture,
+        role: "CLIENT", // Default role
+      });
+
+      if (!result.success) {
+        setError(result.error);
+        setIsLoading(false);
+        return;
+      }
+
+      if (result.role === "SALON_OWNER" && result.salonApproved) {
+        const key = `welcomed_${payload.email}`;
+        const alreadyWelcomed = typeof window !== "undefined" && localStorage.getItem(key);
+        if (!alreadyWelcomed) {
+          setApprovedSalonName(result.salonName || "");
+          setShowWelcomePopup(true);
+          if (typeof window !== "undefined") {
+            localStorage.setItem(key, "1");
+          }
+          setIsLoading(false);
+          return;
+        }
+      }
+
+      router.push(result.redirectTo || "/");
+    } catch (err) {
+      console.error(err);
+      setError("Dështoi hyrja me Google. Provo përsëri.");
       setIsLoading(false);
     }
   };
@@ -199,21 +290,15 @@ export default function Login() {
           <div style={{ flex: 1, height: "1px", background: "var(--border)" }}></div>
         </div>
 
-        <button 
-          type="button" 
-          className="btn btn-secondary" 
+        <div 
+          id="realGoogleButton" 
           style={{ 
-            width: "100%", padding: "0.75rem", display: "flex", alignItems: "center", 
-            justifyContent: "center", gap: "0.75rem", fontSize: "0.95rem", fontWeight: 600,
-            border: "1px solid var(--border)", borderRadius: "var(--radius-md)",
-            background: "var(--surface)", marginBottom: "1rem"
+            width: "100%", 
+            display: "flex", 
+            justifyContent: "center", 
+            marginBottom: "1rem" 
           }}
-          onClick={handleGoogleLogin}
-          disabled={isLoading}
-        >
-          <img src="https://www.google.com/favicon.ico" width="20" /> 
-          {isLoading ? "Duke u lidhur..." : "Vazhdo me Google (Gmail)"}
-        </button>
+        ></div>
 
         <div className={styles.footer}>
           Nuk keni llogari?{" "}
