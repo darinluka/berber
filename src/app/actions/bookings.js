@@ -123,7 +123,7 @@ export async function createBooking(data) {
     }
 
     revalidatePath(`/salon/${data.salonId}`);
-    revalidatePath("/dashboard/calendar");
+    revalidatePath("/dashboard", "layout");
     return { success: true, booking, isApprovedImmediately: status === "APPROVED" };
   } catch (error) {
     console.error("Error creating booking:", error);
@@ -175,7 +175,7 @@ export async function updateBookingStatus(id, status) {
       }
     }
 
-    revalidatePath("/dashboard/calendar");
+    revalidatePath("/dashboard", "layout");
     return { success: true, booking };
   } catch (error) {
     console.error("Error updating booking status:", error);
