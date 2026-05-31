@@ -6,21 +6,73 @@ import { useRouter } from "next/navigation";
 import { registerSalonOwner } from "@/app/actions/auth";
 import Logo from "../components/Logo";
 
+function parseJwt(token) {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    );
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    return null;
+  }
+}
+
 export default function RegisterSalon() {
   const [step, setStep] = useState(1);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [isGoogleModalOpen, setIsGoogleModalOpen] = useState(false);
   const [isGoogleAuth, setIsGoogleAuth] = useState(false);
 
-  // PËR PËRDORUESIN: Për ta bërë këtë funksionale direkt me Gmail-in tuaj,
-  // ju duhet të vendosni një "Google Client ID" këtu.
-  const GOOGLE_CLIENT_ID = "VENDOS_ID_TENDE_KETU.apps.googleusercontent.com";
+  useEffect(() => {
+    if (step === 1 && typeof window !== "undefined") {
+      const initGoogle = () => {
+        if (window.google) {
+          window.google.accounts.id.initialize({
+            client_id: "128311836545-fomqs5niutugs5vv7fg564ll123mhi6t.apps.googleusercontent.com",
+            callback: handleGoogleCredentialResponse,
+          });
 
-  const googleAccounts = [
-    { name: "Altin Duka", email: "altin.duka@gmail.com", img: "https://i.pravatar.cc/150?u=altin" },
-    { name: "Admin Berberi", email: "admin@berber.al", img: "https://i.pravatar.cc/150?u=admin" },
-  ];
+          window.google.accounts.id.renderButton(
+            document.getElementById("realGoogleRegisterButton"),
+            { 
+              theme: "outline", 
+              size: "large", 
+              width: "100%", 
+              text: "signup_with",
+              shape: "rectangular"
+            }
+          );
+        } else {
+          setTimeout(initGoogle, 300);
+        }
+      };
+      initGoogle();
+    }
+  }, [step]);
+
+  const handleGoogleCredentialResponse = (response) => {
+    setLoading(true);
+    const payload = parseJwt(response.credential);
+    if (!payload) {
+      alert("Dështoi dekodimi i të dhënave të Google.");
+      setLoading(false);
+      return;
+    }
+
+    setIsGoogleAuth(true);
+    setFormData(prev => ({
+      ...prev,
+      ownerName: payload.name,
+      ownerEmail: payload.email
+    }));
+    setStep(2);
+    setLoading(false);
+  };
 
   const [formData, setFormData] = useState({
     salonName: "",
@@ -99,25 +151,6 @@ export default function RegisterSalon() {
         boxShadow: "0 0 0 3px rgba(239, 68, 68, 0.15)",
       };
     }
-  };
-
-  const handleGoogleLogin = () => {
-    setIsGoogleModalOpen(true);
-  };
-
-  const selectAccount = (account) => {
-    setLoading(true);
-    setIsGoogleModalOpen(false);
-    setIsGoogleAuth(true);
-    setTimeout(() => {
-      setFormData({
-        ...formData,
-        ownerName: account.name,
-        ownerEmail: account.email
-      });
-      setStep(2);
-      setLoading(false);
-    }, 800);
   };
 
   const searchAddress = async (address) => {
@@ -218,10 +251,10 @@ export default function RegisterSalon() {
     });
 
     if (salonResult.success) {
-      showToast("Salloni u regjistrua me sukses! Po ju ridrejtojmë...", "success");
+      showToast("Salloni u regjistrua me sukses! Kërkesa juaj është në pritje të aprovimit nga administratori. Ju lutemi kontrolloni email-in tuaj.", "success");
       setTimeout(() => {
-        router.push("/dashboard");
-      }, 2000);
+        router.push("/login");
+      }, 3000);
     } else {
       showToast("Gabim: " + salonResult.error, "error");
       setLoading(false);
@@ -232,40 +265,7 @@ export default function RegisterSalon() {
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface)', padding: '2rem' }}>
       <div className="card" style={{ width: '100%', maxWidth: '650px', padding: '3.5rem', boxShadow: 'var(--shadow-xl)', background: 'var(--background)' }}>
         
-        {/* Google Account Modal Simulation */}
-        {isGoogleModalOpen && (
-          <div className="modal-overlay" style={{ background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 10000 }} onClick={() => setIsGoogleModalOpen(false)}>
-            <div className="card fade-in" style={{ width: '400px', padding: '2rem', background: '#fff', color: '#1a1a1a', borderRadius: '16px', border: 'none', margin: 'auto' }} onClick={e => e.stopPropagation()}>
-              <div className="text-center mb-8">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" width="32" style={{ marginBottom: '1rem' }} />
-                <h2 style={{ fontSize: '1.25rem', color: '#1a1a1a', margin: '0 0 0.5rem 0' }}>Zgjidh një llogari</h2>
-                <p style={{ fontSize: '0.9rem', color: '#5f6368', margin: 0 }}>për të vazhduar në Berber.al</p>
-              </div>
 
-              <div className="grid gap-2">
-                {googleAccounts.map((acc, idx) => (
-                  <div 
-                    key={idx} 
-                    onClick={() => selectAccount(acc)}
-                    style={{ 
-                      display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem', 
-                      cursor: 'pointer', borderRadius: '12px', transition: 'background 0.2s',
-                      borderBottom: idx === 0 ? '1px solid #f0f0f0' : 'none'
-                    }}
-                    onMouseEnter={e => e.currentTarget.style.background = '#f8f9fa'}
-                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-                  >
-                    <img src={acc.img} width="40" height="40" style={{ borderRadius: '50%' }} />
-                    <div style={{ textAlign: 'left' }}>
-                      <p style={{ fontSize: '0.95rem', fontWeight: 600, margin: 0, color: '#1a1a1a' }}>{acc.name}</p>
-                      <p style={{ fontSize: '0.85rem', color: '#5f6368', margin: 0 }}>{acc.email}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
 
         <div className="text-center mb-12">
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
@@ -278,21 +278,11 @@ export default function RegisterSalon() {
         {step === 1 && (
           <div className="fade-in">
             <div className="grid gap-4">
-              <button 
-                type="button" 
-                className="btn btn-secondary" 
-                style={{ 
-                  width: '100%', padding: '1.5rem', display: 'flex', alignItems: 'center', 
-                  justifyContent: 'center', gap: '1rem', fontSize: '1.1rem', fontWeight: 600,
-                  border: '2px solid var(--border)', borderRadius: 'var(--radius-lg)',
-                  background: 'var(--surface)'
-                }}
-                onClick={handleGoogleLogin}
-                disabled={loading}
-              >
-                <img src="https://www.google.com/favicon.ico" width="24" /> 
-                {loading ? "Duke u lidhur..." : "Regjistrohu me Google (Gmail)"}
-              </button>
+              {/* Real Google Sign Up Button */}
+              <div
+                id="realGoogleRegisterButton"
+                style={{ width: '100%', display: 'flex', justifyContent: 'center', minHeight: '44px' }}
+              ></div>
               
               <div style={{ margin: '2.5rem 0', display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
                 <div style={{ flex: 1, height: '1px', background: 'var(--border)' }}></div>

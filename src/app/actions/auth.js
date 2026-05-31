@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { sendOtpEmail } from "@/lib/email";
+import { sendOtpEmail, sendSalonRegistrationEmail } from "@/lib/email";
 import { cookies } from "next/headers";
 import bcrypt from "bcryptjs";
 
@@ -129,6 +129,13 @@ export async function registerSalonOwner(data) {
       path: "/",
       maxAge: 60 * 60 * 24 * 365,
     });
+
+    // Dërgo email-in e regjistrimit të sallonit (aplikimit në pritje)
+    try {
+      await sendSalonRegistrationEmail(email, name || salonName, salonName);
+    } catch (mailErr) {
+      console.error("[AUTH] Failed to send registration email:", mailErr);
+    }
 
     return { success: true, salonId: salon.id };
   } catch (error) {

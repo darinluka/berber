@@ -202,3 +202,27 @@ export async function sendSalonApprovalEmail(email, salonName) {
     </div>`,
   });
 }
+
+// ─── 5. Salon Registration Application Email (PENDING) ──────────────────────────
+export async function sendSalonRegistrationEmail(email, ownerName, salonName) {
+  return sendMail({
+    to: email,
+    subject: `Aplikimi juaj për regjistrim salloni u krijua! – Berber.al`,
+    text: `Përshëndetje ${ownerName},\n\nFaleminderit për regjistrimin në Berber.al!\n\nKërkesa për sallonin tuaj "${salonName}" është krijuar me sukses dhe është në proces verifikimi nga ekipi i Berber.al. Ju do të njoftoheni me email sapo llogaria dhe salloni juaj të aprovohen nga administratori.\n\nJu faleminderit për durimin!\nStafi i Berber.al`,
+    html: `
+    <div style="font-family:Arial,sans-serif;max-width:480px;margin:0 auto;padding:32px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;color:#1e293b;">
+      <div style="text-align:center;margin-bottom:24px;">${LOGO_HTML}</div>
+      <h2 style="text-align:center;font-size:1.25rem;color:#c29545;margin-bottom:8px;">Aplikimi për Regjistrim u Krijua!</h2>
+      <p style="color:#64748b;line-height:1.6;margin-bottom:24px;text-align:center;">
+        Përshëndetje <strong>${ownerName}</strong>,<br/><br/>
+        Faleminderit për regjistrimin në platformën tonë! Kërkesa juaj për sallonin <strong>${salonName}</strong> është krijuar dhe aktualisht është në proces verifikimi nga ekipi i <strong>Berber.al</strong>.
+      </p>
+      <div style="background:#f8fafc;border-radius:8px;padding:20px;border-left:4px solid #c29545;margin-bottom:24px;text-align:center;">
+        <p style="margin:0;color:#334155;font-size:0.95rem;">⏳ <strong>Statusi:</strong> Në pritje të aprovimit</p>
+        <p style="margin:8px 0 0;color:#64748b;font-size:0.85rem;">Ju do të njoftoheni menjëherë me email sapo kërkesa juaj të aprovohet.</p>
+      </div>
+      <p style="color:#94a3b8;font-size:0.85rem;text-align:center;margin:0;">Ju faleminderit për durimin dhe mirëkuptimin tuaj!</p>
+      ${FOOTER_HTML}
+    </div>`,
+  });
+}
