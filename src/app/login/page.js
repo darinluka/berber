@@ -32,17 +32,7 @@ export default function Login() {
   const [showWelcomePopup, setShowWelcomePopup] = useState(false);
   const [approvedSalonName, setApprovedSalonName] = useState("");
 
-  const [isGoogleModalOpen, setIsGoogleModalOpen] = useState(false);
-  const [customGoogleName, setCustomGoogleName] = useState("");
-  const [customGoogleEmail, setCustomGoogleEmail] = useState("");
-  const [customGoogleRole, setCustomGoogleRole] = useState("CLIENT");
-  const [showCustomGoogleForm, setShowCustomGoogleForm] = useState(false);
 
-  const googleAccounts = [
-    { name: "Altin Duka", email: "altin.duka@gmail.com", img: "https://i.pravatar.cc/150?u=altin", role: "SALON_OWNER" },
-    { name: "Klient Demua", email: "klient.demo@gmail.com", img: "https://i.pravatar.cc/150?u=klient", role: "CLIENT" },
-    { name: "Ermal Hoxha", email: "ermal.hoxha@gmail.com", img: "https://i.pravatar.cc/150?u=ermal", role: "CLIENT" },
-  ];
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -160,66 +150,7 @@ export default function Login() {
     router.push("/dashboard");
   };
 
-  const handleGoogleLogin = () => {
-    setIsGoogleModalOpen(true);
-  };
 
-  const selectGoogleAccount = async (account) => {
-    setIsLoading(true);
-    setIsGoogleModalOpen(false);
-    setError("");
-    try {
-      const googleId = `google_id_${account.email.replace(/[^a-zA-Z0-9]/g, "_")}`;
-      const result = await loginOrRegisterWithGoogle({
-        googleId,
-        email: account.email,
-        name: account.name,
-        image: account.img || `https://i.pravatar.cc/150?u=${account.email}`,
-        role: account.role || "CLIENT",
-        salonName: account.role === "SALON_OWNER" ? `${account.name} Barber` : null,
-      });
-
-      if (!result.success) {
-        setError(result.error);
-        setIsLoading(false);
-        return;
-      }
-
-      if (result.role === "SALON_OWNER" && result.salonApproved) {
-        const key = `welcomed_${account.email}`;
-        const alreadyWelcomed = typeof window !== "undefined" && localStorage.getItem(key);
-        if (!alreadyWelcomed) {
-          setApprovedSalonName(result.salonName || "");
-          setShowWelcomePopup(true);
-          if (typeof window !== "undefined") {
-            localStorage.setItem(key, "1");
-          }
-          setIsLoading(false);
-          return;
-        }
-      }
-
-      router.push(result.redirectTo || "/");
-    } catch (err) {
-      console.error(err);
-      setError("Dështoi hyrja me Google. Provo përsëri.");
-      setIsLoading(false);
-    }
-  };
-
-  const handleCustomGoogleSubmit = (e) => {
-    e.preventDefault();
-    if (!customGoogleEmail.includes("@")) {
-      alert("Futni një email të saktë.");
-      return;
-    }
-    selectGoogleAccount({
-      name: customGoogleName || "Përdorues Google",
-      email: customGoogleEmail,
-      img: `https://i.pravatar.cc/150?u=${customGoogleEmail}`,
-      role: customGoogleRole,
-    });
-  };
 
   return (
     <div className={styles.loginContainer}>
@@ -433,78 +364,6 @@ export default function Login() {
               50% { transform: scale(1.06); }
             }
           `}</style>
-        </div>
-      )}
-
-      {/* Simulation Google Modal */}
-      {isGoogleModalOpen && (
-        <div className="modal-overlay" onClick={() => setIsGoogleModalOpen(false)}>
-          <div className="card fade-in" style={{ width: '100%', maxWidth: '400px', padding: '2rem', background: '#fff', color: '#1a1a1a', borderRadius: '16px', border: 'none', margin: 'auto' }} onClick={e => e.stopPropagation()}>
-            <div className="text-center mb-6">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" width="32" style={{ marginBottom: '1rem' }} />
-              <h2 style={{ fontSize: '1.25rem', color: '#1a1a1a', margin: '0 0 0.25rem 0', fontWeight: 700 }}>Zgjidh një llogari</h2>
-              <p style={{ fontSize: '0.85rem', color: '#5f6368', margin: 0 }}>për të vazhduar në Berber.al</p>
-            </div>
-
-            {!showCustomGoogleForm ? (
-              <>
-                <div className="grid gap-2" style={{ maxHeight: '250px', overflowY: 'auto' }}>
-                  {googleAccounts.map((acc, idx) => (
-                    <div 
-                      key={idx} 
-                      onClick={() => selectGoogleAccount(acc)}
-                      style={{ 
-                        display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.75rem', 
-                        cursor: 'pointer', borderRadius: '12px', transition: 'background 0.2s',
-                        borderBottom: idx < googleAccounts.length - 1 ? '1px solid #f0f0f0' : 'none'
-                      }}
-                      onMouseEnter={e => e.currentTarget.style.background = '#f8f9fa'}
-                      onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-                    >
-                      <img src={acc.img} width="36" height="36" style={{ borderRadius: '50%' }} />
-                      <div style={{ textAlign: 'left' }}>
-                        <p style={{ fontSize: '0.9rem', fontWeight: 600, margin: 0, color: '#1c1e21' }}>{acc.name}</p>
-                        <p style={{ fontSize: '0.8rem', color: '#5f6368', margin: 0 }}>{acc.email}</p>
-                        <span style={{ fontSize: '0.65rem', background: acc.role === 'SALON_OWNER' ? '#fdf2e9' : '#e6f4ea', color: acc.role === 'SALON_OWNER' ? '#d97706' : '#137333', padding: '1px 6px', borderRadius: '4px', fontWeight: 700, display: 'inline-block', marginTop: '2px' }}>
-                          {acc.role === 'SALON_OWNER' ? 'PRONAR SALLONI' : 'KLIENT'}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                
-                <button 
-                  type="button"
-                  style={{ width: '100%', padding: '0.75rem', marginTop: '1rem', border: '1px dashed #dadce0', borderRadius: '8px', color: '#1a73e8', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', textAlign: 'center' }}
-                  onClick={() => setShowCustomGoogleForm(true)}
-                >
-                  ＋ Përdor një llogari tjetër
-                </button>
-              </>
-            ) : (
-              <form onSubmit={handleCustomGoogleSubmit} className="grid gap-3" style={{ textAlign: 'left' }}>
-                <div>
-                  <label style={{ fontSize: '0.8rem', fontWeight: 600, color: '#5f6368', display: 'block', marginBottom: '4px' }}>Emri i Plotë</label>
-                  <input type="text" placeholder="P.sh. Erjon Duka" required style={{ width: '100%', padding: '0.6rem', border: '1px solid #dadce0', borderRadius: '6px', fontSize: '0.9rem', outline: 'none' }} value={customGoogleName} onChange={e => setCustomGoogleName(e.target.value)} />
-                </div>
-                <div>
-                  <label style={{ fontSize: '0.8rem', fontWeight: 600, color: '#5f6368', display: 'block', marginBottom: '4px' }}>Email Adresa (Gmail)</label>
-                  <input type="email" placeholder="erjon.duka@gmail.com" required style={{ width: '100%', padding: '0.6rem', border: '1px solid #dadce0', borderRadius: '6px', fontSize: '0.9rem', outline: 'none' }} value={customGoogleEmail} onChange={e => setCustomGoogleEmail(e.target.value)} />
-                </div>
-                <div>
-                  <label style={{ fontSize: '0.8rem', fontWeight: 600, color: '#5f6368', display: 'block', marginBottom: '4px' }}>Roli i Llogarisë</label>
-                  <select style={{ width: '100%', padding: '0.6rem', border: '1px solid #dadce0', borderRadius: '6px', fontSize: '0.9rem', outline: 'none', background: '#fff' }} value={customGoogleRole} onChange={e => setCustomGoogleRole(e.target.value)}>
-                    <option value="CLIENT">Klient (Rezervon qethje)</option>
-                    <option value="SALON_OWNER">Pronar Salloni (Menaxhon sallonin)</option>
-                  </select>
-                </div>
-                <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
-                  <button type="button" style={{ flex: 1, padding: '0.6rem', border: '1px solid #dadce0', borderRadius: '6px', fontSize: '0.85rem', cursor: 'pointer', background: '#fff', fontWeight: 600 }} onClick={() => setShowCustomGoogleForm(false)}>Anulo</button>
-                  <button type="submit" style={{ flex: 1, padding: '0.6rem', border: 'none', borderRadius: '6px', fontSize: '0.85rem', cursor: 'pointer', background: '#1a73e8', color: '#fff', fontWeight: 600 }}>Vazhdo</button>
-                </div>
-              </form>
-            )}
-          </div>
         </div>
       )}
     </div>
