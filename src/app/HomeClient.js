@@ -57,7 +57,7 @@ export default function HomeClient({ initialSalons }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [userLocation, setUserLocation] = useState(null);
   const [isNearMeActive, setIsNearMeActive] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(6);
+  const [visibleCount, setVisibleCount] = useState(8);
   const resultsRef = useRef(null);
 
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -197,21 +197,23 @@ export default function HomeClient({ initialSalons }) {
           border-radius: var(--radius-lg);
           padding: 0;
           overflow: hidden;
-          height: 100%;
+          height: 480px;
           display: flex;
           flex-direction: column;
           transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
           cursor: pointer;
+          position: relative;
         }
         .editorial-card:hover {
           transform: translateY(-8px);
           border-color: rgba(212, 175, 55, 0.45);
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 1px rgba(212, 175, 55, 0.2);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 1px rgba(212, 175, 55, 0.3);
         }
         .editorial-card-image-wrapper {
-          height: 250px;
-          position: relative;
+          position: absolute;
+          inset: 0;
           overflow: hidden;
+          z-index: 1;
         }
         .editorial-card-image {
           width: 100%;
@@ -220,40 +222,48 @@ export default function HomeClient({ initialSalons }) {
           transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .editorial-card:hover .editorial-card-image {
-          transform: scale(1.06);
+          transform: scale(1.08);
+        }
+        .editorial-card-gradient {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to bottom, rgba(9, 8, 7, 0.1) 0%, rgba(9, 8, 7, 0.35) 45%, rgba(9, 8, 7, 0.95) 100%);
+          z-index: 2;
         }
         .card-glass-badge-left {
           position: absolute;
-          top: 1rem;
-          left: 1rem;
-          background: rgba(9, 8, 7, 0.75);
+          top: 1.25rem;
+          left: 1.25rem;
+          background: rgba(9, 8, 7, 0.7);
           backdrop-filter: blur(8px);
           -webkit-backdrop-filter: blur(8px);
           border: 1px solid rgba(212, 175, 55, 0.35);
           color: var(--primary);
-          padding: 0.35rem 0.8rem;
+          padding: 0.35rem 0.75rem;
           border-radius: 4px;
           font-size: 0.65rem;
           font-weight: 700;
           letter-spacing: 0.1em;
           text-transform: uppercase;
+          z-index: 5;
         }
         .card-glass-badge-right {
           position: absolute;
-          top: 1rem;
-          right: 1rem;
-          background: rgba(9, 8, 7, 0.75);
+          top: 1.25rem;
+          right: 1.25rem;
+          background: rgba(9, 8, 7, 0.7);
           backdrop-filter: blur(8px);
           -webkit-backdrop-filter: blur(8px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.15);
           color: #ffffff;
-          padding: 0.35rem 0.6rem;
-          border-radius: var(--radius-sm);
+          padding: 0.35rem 0.65rem;
+          border-radius: 4px;
           font-size: 0.7rem;
           font-weight: 700;
           display: flex;
           align-items: center;
           gap: 0.25rem;
+          z-index: 5;
         }
 
         .service-static-card {
@@ -357,7 +367,7 @@ export default function HomeClient({ initialSalons }) {
           </div>
         </div>
 
-        {/* Hero Slider status tracker (visual wow detail) */}
+        {/* Hero Slider status tracker */}
         <div style={{
           position: "absolute",
           bottom: "2.5rem",
@@ -376,7 +386,7 @@ export default function HomeClient({ initialSalons }) {
         </div>
       </section>
 
-      {/* Results Section */}
+      {/* Results Section - 4 columns layout matching screenshot perfectly */}
       <section className="container" style={{ padding: "4rem 0 4rem" }} ref={resultsRef} id="sallonet">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3rem", width: "100%", flexWrap: "wrap", gap: "1rem" }}>
           <div>
@@ -398,7 +408,7 @@ export default function HomeClient({ initialSalons }) {
 
         {visibleSalons.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 md-grid-cols-3" style={{ padding: "0", gap: "30px" }}>
+            <div className="grid grid-cols-1 md-grid-cols-4" style={{ padding: "0", gap: "20px" }}>
               {visibleSalons.map((salon, index) => {
                 const socialLinks = [
                   { key: "instagram", url: salon.instagram },
@@ -415,78 +425,91 @@ export default function HomeClient({ initialSalons }) {
                   <div key={salon.id} style={{ position: "relative" }}>
                     <Link href={`/salon/${salon.id}`} style={{ textDecoration: "none", color: "inherit" }}>
                       <div className="editorial-card">
-                        {/* Cover Image Wrapper */}
+                        {/* Cover Image Wrapper with full height */}
                         <div className="editorial-card-image-wrapper">
                           <img 
                             src={salon.coverImage || "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800"} 
                             alt={salon.name}
                             className="editorial-card-image"
                           />
-                          <div className="card-glass-badge-left">
-                            {badgeText}
-                          </div>
-                          <div className="card-glass-badge-right">
-                            ⭐ {salon.rating || "4.8"}
-                          </div>
-
-                          {/* Social Media Icons on image */}
-                          {socialLinks.length > 0 && (
-                            <div
-                              style={{
-                                position: "absolute",
-                                bottom: "1rem",
-                                right: "1rem",
-                                display: "flex",
-                                gap: "0.4rem",
-                                zIndex: 10
-                              }}
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              {socialLinks.map(({ key, url }) => (
-                                <a
-                                  key={key}
-                                  href={url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  title={key.charAt(0).toUpperCase() + key.slice(1)}
-                                  style={{
-                                    width: "28px",
-                                    height: "28px",
-                                    borderRadius: "50%",
-                                    background: "rgba(9, 8, 7, 0.75)",
-                                    border: "1px solid rgba(255, 255, 255, 0.1)",
-                                    color: socialColors[key] || "#fff",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
-                                    transition: "transform 0.15s, border-color 0.15s",
-                                    flexShrink: 0,
-                                  }}
-                                  onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.2)"; e.currentTarget.style.borderColor = socialColors[key]; }}
-                                  onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)"; }}
-                                >
-                                  <SocialIcon type={key} />
-                                </a>
-                              ))}
-                            </div>
-                          )}
+                          {/* Rich bottom overlay gradient */}
+                          <div className="editorial-card-gradient"></div>
                         </div>
 
-                        {/* Card Info */}
-                        <div style={{ padding: "2rem", flex: 1, display: "flex", flexDirection: "column" }}>
-                          <h3 style={{ fontSize: "1.35rem", marginBottom: "0.5rem", fontWeight: 500, fontFamily: "var(--font-serif)" }}>{salon.name}</h3>
-                          <p className="text-muted" style={{ fontSize: "0.9rem", marginBottom: "2rem", display: "flex", alignItems: "center", gap: "0.35rem" }}>
-                            📍 {salon.address || "Tiranë, Shqipëri"}
-                            {isNearMeActive && userLocation && salon.lat && salon.lng && (
-                              <span style={{ color: "var(--primary)", fontWeight: 600, marginLeft: "auto", fontSize: "0.8rem" }}>
-                                ({calculateDistance(userLocation.lat, userLocation.lng, salon.lat, salon.lng).toFixed(1)} km)
-                              </span>
-                            )}
+                        {/* Top Badges */}
+                        <div className="card-glass-badge-left">
+                          {badgeText}
+                        </div>
+                        <div className="card-glass-badge-right">
+                          ⭐ {salon.rating || "4.8"}
+                        </div>
+
+                        {/* Social Media Icons on image middle-right */}
+                        {socialLinks.length > 0 && (
+                          <div
+                            style={{
+                              position: "absolute",
+                              top: "4rem",
+                              right: "1.25rem",
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "0.4rem",
+                              zIndex: 10
+                            }}
+                            onClick={(e) => e.preventDefault()}
+                          >
+                            {socialLinks.map(({ key, url }) => (
+                              <a
+                                key={key}
+                                href={url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                title={key.charAt(0).toUpperCase() + key.slice(1)}
+                                style={{
+                                  width: "26px",
+                                  height: "26px",
+                                  borderRadius: "50%",
+                                  background: "rgba(9, 8, 7, 0.75)",
+                                  border: "1px solid rgba(255, 255, 255, 0.15)",
+                                  color: socialColors[key] || "#fff",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+                                  transition: "transform 0.15s",
+                                  flexShrink: 0,
+                                }}
+                                onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.2)"; }}
+                                onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; }}
+                              >
+                                <SocialIcon type={key} />
+                              </a>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Bottom Info overlayed on image (Recreated exactly from screenshot) */}
+                        <div style={{ 
+                          position: "absolute", 
+                          bottom: 0, 
+                          left: 0, 
+                          width: "100%", 
+                          padding: "1.75rem 1.5rem", 
+                          zIndex: 5,
+                          display: "flex",
+                          flexDirection: "column"
+                        }}>
+                          <h3 style={{ fontSize: "1.25rem", marginBottom: "0.35rem", fontWeight: 500, fontFamily: "var(--font-serif)", color: "#fff" }}>
+                            {salon.name}
+                          </h3>
+                          <p style={{ fontSize: "0.85rem", marginBottom: "1.25rem", color: "rgba(255,255,255,0.7)" }}>
+                            {salon.address || "Rruga Myslym Shyri, Tiranë"}
                           </p>
-                          <div className="flex justify-between items-center mt-auto" style={{ borderTop: "1px solid var(--border)", paddingTop: "1.5rem" }}>
-                            <span style={{ fontWeight: 600, color: "var(--primary)", fontSize: "0.95rem" }}>Rezervo →</span>
-                            <span className="text-muted" style={{ fontSize: "0.8rem" }}>{salon.hours || "09:00 - 21:00"}</span>
+                          <div className="flex justify-between items-center" style={{ borderTop: "1px solid rgba(255,255,255,0.12)", paddingTop: "0.9rem" }}>
+                            <span style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.5)" }}>{salon.hours || "09:00 - 21:00"}</span>
+                            <span style={{ fontWeight: 600, color: "var(--primary)", fontSize: "0.85rem", display: "flex", alignItems: "center" }}>
+                              Rezervo →
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -501,7 +524,7 @@ export default function HomeClient({ initialSalons }) {
                 <button
                   className="btn btn-secondary"
                   style={{ padding: "0.9rem 2.5rem", fontSize: "1rem", borderRadius: "var(--radius-full)", fontWeight: 600 }}
-                  onClick={() => setVisibleCount(prev => prev + 6)}
+                  onClick={() => setVisibleCount(prev => prev + 8)}
                 >
                   Shiko më shumë sallone 💈
                 </button>
@@ -528,7 +551,7 @@ export default function HomeClient({ initialSalons }) {
         )}
       </section>
 
-      {/* Services Grid Section (Added beautiful wow static element from screenshot) */}
+      {/* Services Grid Section */}
       <section className="container" style={{ padding: "5rem 0 5rem" }} id="sherbimet">
         <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
           <span className="section-badge">Shërbimet</span>
@@ -563,7 +586,7 @@ export default function HomeClient({ initialSalons }) {
           </div>
           <button 
             onClick={handleNearMe} 
-            className="btn btn-secondary"
+            className="btn btn-primary"
             style={{ borderRadius: "var(--radius-full)", padding: "0.75rem 1.75rem", fontSize: "0.9rem", fontWeight: 600 }}
           >
             Hap Hartën →
