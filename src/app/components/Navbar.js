@@ -20,15 +20,38 @@ export default async function Navbar() {
       position: 'sticky',
       top: 0,
       zIndex: 100,
-      backgroundColor: 'var(--background)',
+      backgroundColor: 'rgba(9, 8, 7, 0.8)',
       borderBottom: '1px solid var(--border)',
-      backdropFilter: 'blur(12px)',
-      WebkitBackdropFilter: 'blur(12px)',
+      backdropFilter: 'blur(16px)',
+      WebkitBackdropFilter: 'blur(16px)',
     }}>
-      <div className="container flex items-center justify-between" style={{ padding: '0.5rem 1.5rem' }}>
+      <div className="container flex items-center justify-between" style={{ padding: '0.75rem 1.5rem' }}>
         <Link href="/" style={{ textDecoration: 'none' }}>
           <Logo initialTitle={settings?.siteTitle} />
         </Link>
+        
+        {/* Center Links (Visible on desktop) */}
+        <div className="flex items-center gap-8 nav-links-desktop" style={{ display: 'flex' }}>
+          <style dangerouslySetInnerHTML={{__html: `
+            .nav-link-item {
+              color: var(--text-muted);
+              font-weight: 500;
+              font-size: 0.95rem;
+              transition: color 0.2s ease;
+            }
+            .nav-link-item:hover {
+              color: var(--primary);
+            }
+            @media (max-width: 768px) {
+              .nav-links-desktop {
+                display: none !important;
+              }
+            }
+          `}} />
+          <Link href="/#sallonet" className="nav-link-item">Sallonet</Link>
+          <Link href="/#sherbimet" className="nav-link-item">Shërbimet</Link>
+          <Link href="/#harta" className="nav-link-item">Harta</Link>
+        </div>
         
         <div className="flex gap-4 items-center">
           {user ? (
@@ -50,7 +73,7 @@ export default async function Navbar() {
                 <Link 
                   href={user.role === "ADMIN" ? "/admin" : "/dashboard"} 
                   className="btn btn-primary" 
-                  style={{ fontSize: '0.85rem', padding: '0.5rem 1rem', display: 'flex', alignItems: 'center', gap: '0.25rem' }}
+                  style={{ fontSize: '0.85rem', padding: '0.5rem 1.25rem', borderRadius: 'var(--radius-full)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}
                 >
                   Paneli 📊
                 </Link>
@@ -60,14 +83,14 @@ export default async function Navbar() {
                 <button 
                   type="submit" 
                   className="btn btn-secondary" 
-                  style={{ fontSize: '0.85rem', padding: '0.5rem 1rem', cursor: 'pointer' }}
+                  style={{ fontSize: '0.85rem', padding: '0.5rem 1.25rem', borderRadius: 'var(--radius-full)', cursor: 'pointer' }}
                 >
                   Dil 🚪
                 </button>
               </form>
             </div>
           ) : (
-            <Link href="/login" className="btn btn-primary" style={{ fontSize: '0.9rem', padding: '0.6rem 1.25rem' }}>
+            <Link href="/login" className="btn btn-primary" style={{ fontSize: '0.9rem', padding: '0.6rem 1.5rem', borderRadius: 'var(--radius-full)', fontWeight: 600 }}>
               Hyrja në Llogari
             </Link>
           )}

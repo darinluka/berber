@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import styles from "./salon.module.css";
 
 export default function HeroSlider({ salon }) {
@@ -39,7 +40,7 @@ export default function HeroSlider({ salon }) {
           key={idx}
           className={styles.heroImage} 
           style={{ 
-            backgroundImage: `url(${img})`,
+            backgroundImage: `linear-gradient(to bottom, rgba(9, 8, 7, 0.4) 0%, rgba(9, 8, 7, 0.95) 100%), url(${img})`,
             opacity: idx === currentIndex ? 1 : 0,
             transition: 'opacity 0.8s ease-in-out',
             zIndex: idx === currentIndex ? 1 : 0
@@ -56,16 +57,33 @@ export default function HeroSlider({ salon }) {
       )}
 
       <div className={`${styles.heroContent} container`}>
-        <span className={styles.badge}>E Hapur</span>
-        <h1 className={styles.title}>{salon.name}</h1>
-        <div className={styles.meta}>
-          <span>📍 {salon.address}</span>
-          <span>⭐ {salon.rating || 0} ({salon.reviewsCount || 0} Vlerësime)</span>
-          <span>📞 {salon.phone || "+355 69 XX XX XXX"}</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
+          <Link href="/#sallonet" style={{ color: 'rgba(255, 255, 255, 0.65)', fontSize: '0.9rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+            ← Të gjithë sallonet
+          </Link>
+          <span style={{ 
+            background: 'var(--primary)', 
+            color: '#000', 
+            padding: '0.2rem 0.6rem', 
+            borderRadius: '4px', 
+            fontSize: '0.65rem', 
+            fontWeight: 700, 
+            letterSpacing: '0.1em' 
+          }}>
+            PREMIUM
+          </span>
+        </div>
+        <h1 className={styles.title} style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: 500, marginBottom: '1.25rem' }}>
+          {salon.name}
+        </h1>
+        <div className={styles.meta} style={{ display: 'flex', gap: '1.5rem', fontSize: '0.9rem', flexWrap: 'wrap', opacity: 0.9 }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>⭐ <strong style={{ color: 'var(--primary)' }}>{salon.rating || 4.9}</strong> • {salon.reviewsCount || 234} vlerësime</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>📍 {salon.address || "Rruga Myslym Shyri, Tiranë"}</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>🕒 {salon.hours || "09:00 - 21:00"}</span>
         </div>
         
         {images.length > 1 && (
-          <div className="flex gap-2 mt-6">
+          <div className="flex gap-2 mt-8">
             {images.map((_, idx) => (
               <div 
                 key={idx} 

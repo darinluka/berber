@@ -49,9 +49,9 @@ export default async function DashboardOverview() {
 
   return (
     <div className="fade-in">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
         <div>
-          <h1 style={{ fontSize: "1.75rem" }}>
+          <h1 style={{ fontSize: "1.95rem", fontFamily: "var(--font-serif)", fontWeight: 500, color: "#fff" }}>
             Mirësevjen – {salon?.name || "Salloni Juaj"}
           </h1>
           <p className="text-muted">Përmbledhja e aktivitetit për sot.</p>
@@ -60,7 +60,7 @@ export default async function DashboardOverview() {
           <Link
             href="/dashboard/calendar"
             className="btn btn-primary"
-            style={{ padding: "0.6rem 1.2rem" }}
+            style={{ padding: "0.6rem 1.5rem", borderRadius: "var(--radius-full)", fontWeight: 600 }}
           >
             + Rezervim i Ri
           </Link>
@@ -69,13 +69,14 @@ export default async function DashboardOverview() {
 
       <style>{`
         .stat-card-hover {
-          transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
           border: 1px solid var(--border);
           cursor: pointer;
+          background: var(--surface) !important;
         }
         .stat-card-hover:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+          transform: translateY(-4px);
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4), 0 0 1px var(--hover-color);
           border-color: var(--hover-color) !important;
         }
       `}</style>
@@ -100,7 +101,7 @@ export default async function DashboardOverview() {
               <div
                 style={{
                   fontSize: "1.5rem",
-                  background: "rgba(128, 128, 128, 0.05)",
+                  background: "rgba(212, 175, 55, 0.05)",
                   color: stat.color,
                   width: "50px",
                   height: "50px",
@@ -117,11 +118,11 @@ export default async function DashboardOverview() {
               <div>
                 <p
                   className="text-muted"
-                  style={{ fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase" }}
+                  style={{ fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: '0.5px' }}
                 >
                   {stat.title}
                 </p>
-                <h2 style={{ fontSize: "1.25rem" }}>{stat.value}</h2>
+                <h2 style={{ fontSize: "1.35rem", fontWeight: 600, fontFamily: 'var(--font-heading)', color: '#fff' }}>{stat.value}</h2>
               </div>
             </div>
           </Link>
@@ -129,14 +130,14 @@ export default async function DashboardOverview() {
       </div>
 
       <div className="grid gap-8 mt-8" style={{ gridTemplateColumns: "1.5fr 1fr" }}>
-        <div className="card">
-          <h3 className="mb-8" style={{ fontSize: "1.1rem" }}>Performanca Javore</h3>
+        <div className="card" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
+          <h3 className="mb-8" style={{ fontSize: "1.15rem", fontFamily: 'var(--font-serif)', fontWeight: 500, color: '#fff' }}>Performanca Javore</h3>
           <div
             style={{
               height: "200px",
               display: "flex",
               alignItems: "flex-end",
-              gap: "1rem",
+              gap: "1.25rem",
               paddingBottom: "1rem",
             }}
           >
@@ -145,10 +146,11 @@ export default async function DashboardOverview() {
                 key={i}
                 style={{
                   flex: 1,
-                  background: i === 3 ? "var(--primary)" : "var(--surface-hover)",
+                  background: i === 3 ? "var(--primary)" : "rgba(212, 175, 55, 0.08)",
                   height: `${h}%`,
                   borderRadius: "4px 4px 0 0",
                   position: "relative",
+                  transition: 'height 0.3s ease'
                 }}
               >
                 <span

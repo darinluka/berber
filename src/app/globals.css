@@ -27,8 +27,9 @@
   --radius-lg: 1rem;
   --radius-full: 9999px;
 
-  --font-sans: 'Inter', sans-serif;
-  --font-heading: 'Outfit', sans-serif;
+  --font-sans: var(--font-sans), 'Inter', sans-serif;
+  --font-heading: var(--font-heading), 'Outfit', sans-serif;
+  --font-serif: var(--font-serif), 'Playfair Display', Georgia, serif;
 
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -36,23 +37,23 @@
 }
 
 [data-theme='dark'] {
-  --background: #09090b;
-  --foreground: #fafafa;
+  --background: #090807; /* Sleek warm luxury black */
+  --foreground: #f4f3f0; /* Creamy off-white */
   
-  --primary: #d4af37;
-  --primary-hover: #bda030;
-  --secondary: #27272a;
+  --primary: #d4af37; /* Luxury gold */
+  --primary-hover: #e5c158;
+  --secondary: #1a1613; /* Warm deep gray/brown button background */
   
-  --surface: #18181b;
-  --surface-hover: #27272a;
-  --border: #3f3f46;
+  --surface: #13100e; /* Deep charcoal warm surface */
+  --surface-hover: #1c1815;
+  --border: rgba(212, 175, 55, 0.15); /* Elegant gold-tinged border */
   
-  --text-muted: #a1a1aa;
+  --text-muted: #a69f95; /* Warm muted text */
 
   /* Hero Section Adaptive Vars */
-  --hero-overlay: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.7) 100%);
+  --hero-overlay: linear-gradient(to bottom, rgba(9, 8, 7, 0.35) 0%, rgba(9, 8, 7, 0.95) 100%);
   --hero-text: #ffffff;
-  --hero-text-muted: rgba(255, 255, 255, 0.8);
+  --hero-text-muted: #dcd7cd;
 }
 
 * {
@@ -72,7 +73,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+h4, h5, h6 {
   font-family: var(--font-heading);
   font-weight: 600;
   line-height: 1.2;

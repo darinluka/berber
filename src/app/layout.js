@@ -1,4 +1,4 @@
-import { Inter, Outfit } from "next/font/google";
+import { Inter, Outfit, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -12,6 +12,12 @@ const outfit = Outfit({
   subsets: ["latin"],
 });
 
+const playfair = Playfair_Display({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+});
+
 import { ThemeProvider } from "./theme-provider";
 
 export const metadata = {
@@ -22,7 +28,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="sq" className={`${inter.variable} ${outfit.variable}`} suppressHydrationWarning>
+    <html lang="sq" className={`${inter.variable} ${outfit.variable} ${playfair.variable}`} suppressHydrationWarning>
       <body>
         <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" />
         <ThemeProvider>
