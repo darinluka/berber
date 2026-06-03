@@ -347,14 +347,14 @@ export default function HomeClient({ initialSalons }) {
           <div className="hero-grid">
             <div className="hero-text-container">
               <p className="hero-subtitle" style={{ color: 'var(--primary)', letterSpacing: '0.25em', textTransform: 'uppercase', fontSize: '0.8rem', fontWeight: 800, marginBottom: '1.25rem' }}>
-                Mjeshtëri Klasike
+                Mjeshtëri e Vërtetë
               </p>
               <h1 style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4rem)', lineHeight: 1.15, marginBottom: '1.5rem', fontWeight: 800 }}>
-                Arti i <br />
-                <span className="text-gold-serif-italic">Precizionit</span> Modern
+                Ku Tradita <br />
+                Takon Stilin <span className="text-gold-serif-italic">Modern</span>
               </h1>
               <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', lineHeight: 1.6, maxWidth: '520px', marginBottom: '2.5rem' }}>
-                Mirësevini në platformën tonë të dedikuar për të gjetur sallonin e duhur. Këtu mund të rezervoni takime dhe të eksploroni sallonet më të mira në Shqipëri.
+                Nga prerjet klasike deri te trendet më të fundit, platforma jonë ju ndihmon të gjeni profesionistët më të mirë dhe të rezervoni terminin tuaj pa pritje.
               </p>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Link href="#sallonet" className="btn btn-primary" style={{ padding: "0.9rem 2.2rem", borderRadius: "var(--radius-sm)", fontWeight: 700, fontSize: "0.95rem" }}>
@@ -406,7 +406,7 @@ export default function HomeClient({ initialSalons }) {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3.5rem", width: "100%", flexWrap: "wrap", gap: "1rem" }}>
           <div>
             <span className="section-badge">Shërbimet</span>
-            <h2 className="section-title-serif">Shërbime të Kuruara</h2>
+            <h2 className="section-title-serif">Shërbime të Kërkuara</h2>
             <p className="text-muted" style={{ marginTop: "0.5rem" }}>Nga prerjet klasike tek trajtimet moderne</p>
           </div>
           <Link href="#sallonet" className="text-muted" style={{ fontSize: "0.9rem", color: "var(--primary)", fontWeight: 700, display: "flex", alignItems: "center", gap: "0.25rem" }}>
@@ -441,7 +441,7 @@ export default function HomeClient({ initialSalons }) {
       <section className="container" style={{ padding: "6rem 0" }} ref={resultsRef} id="sallonet">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3rem", width: "100%", flexWrap: "wrap", gap: "1rem" }}>
           <div>
-            <span className="section-badge">Përzgjedhje Editoriale</span>
+            <span className="section-badge">Gjej berberin tënd</span>
             <h2 className="section-title-serif">
               {searchTerm ? (
                 <>Rezultatet për <span>"{searchTerm}"</span></>
@@ -635,7 +635,7 @@ export default function HomeClient({ initialSalons }) {
       <section className="quote-section">
         <div className="container">
           <p className="quote-text-serif">
-            "Flokët e një burri janë deklarata e tij e qëllimit."
+            "Flokët nuk janë thjesht pamje, por pjesë e identitetit tënd."
           </p>
           <div className="quote-image-wrapper">
             <img 

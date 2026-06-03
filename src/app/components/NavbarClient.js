@@ -35,7 +35,7 @@ export default function NavbarClient({ user, handleLogout }) {
           display: block;
           width: 20px;
           height: 2px;
-          background: var(--foreground);
+          background: #ffffff;
           border-radius: 2px;
           transition: all 0.3s ease;
         }

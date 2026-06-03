@@ -318,7 +318,7 @@ button {
 }
 
 .logo-img {
-  height: 48px;
+  height: 65px;
   width: auto;
   transition: all 0.3s ease;
 }
@@ -635,7 +635,7 @@ button {
 
 @media (max-width: 768px) {
   .logo-img {
-    height: 40px;
+    height: 50px;
   }
   
   .hero-grid {
@@ -759,8 +759,8 @@ button {
     max-width: 100% !important;
   }
 
-  /* Generic single-col override for non-salon grids */
-  .grid:not(.md-grid-cols-4):not(.grid-cols-2) {
+  /* Generic single-col override for non-salon grids on landing page */
+  .fade-in .grid:not(.md-grid-cols-4):not(.grid-cols-2) {
     grid-template-columns: 1fr !important;
     gap: 12px !important;
   }
