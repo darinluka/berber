@@ -318,7 +318,7 @@ button {
 }
 
 .logo-img {
-  height: 65px;
+  height: 110px;
   width: auto;
   transition: all 0.3s ease;
 }
@@ -635,7 +635,7 @@ button {
 
 @media (max-width: 768px) {
   .logo-img {
-    height: 50px;
+    height: 80px;
   }
   
   .hero-grid {
