@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath, unstable_noStore as noStore } from "next/cache";
-import { sendBookingConfirmationEmail, sendBookingApplicationEmail } from "@/lib/email";
+import { sendBookingConfirmationEmail, sendBookingApplicationEmail, sendBookingRejectionEmail } from "@/lib/email";
 
 export async function getBusySlots(salonId, date, barberId) {
   noStore();
@@ -147,14 +147,14 @@ export async function getBookings(salonId) {
   }
 }
 
-export async function updateBookingStatus(id, status) {
+export async function updateBookingStatus(id, status, reason = "") {
   try {
     const booking = await prisma.booking.update({
       where: { id },
       data: { status }
     });
 
-    if (status === "APPROVED") {
+    if (status === "APPROVED" || status === "CANCELLED") {
       try {
         const bookingWithDetails = await prisma.booking.findUnique({
           where: { id },
@@ -166,9 +166,15 @@ export async function updateBookingStatus(id, status) {
           }
         });
         if (bookingWithDetails) {
-          sendBookingConfirmationEmail(bookingWithDetails).catch(err => {
-            console.error("Failed to send booking confirmation email:", err);
-          });
+          if (status === "APPROVED") {
+            sendBookingConfirmationEmail(bookingWithDetails).catch(err => {
+              console.error("Failed to send booking confirmation email:", err);
+            });
+          } else if (status === "CANCELLED") {
+            sendBookingRejectionEmail(bookingWithDetails, reason).catch(err => {
+              console.error("Failed to send booking cancellation email:", err);
+            });
+          }
         }
       } catch (emailErr) {
         console.error("Error in email sending flow:", emailErr);

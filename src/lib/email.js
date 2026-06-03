@@ -226,3 +226,79 @@ export async function sendSalonRegistrationEmail(email, ownerName, salonName) {
     </div>`,
   });
 }
+
+// ─── 6. Salon Rejection Email ────────────────────────────────────────────────
+export async function sendSalonRejectionEmail(email, salonName, reason) {
+  return sendMail({
+    to: email,
+    subject: `Njoftim mbi aplikimin tuaj për sallon – Berber.al`,
+    text: `Përshëndetje,\n\nNa vjen keq t'ju njoftojmë se aplikimi për sallonin "${salonName}" nuk u aprovua.\n\nArsyeja e refuzimit:\n${reason || "Nuk është specifikuar një arsye konkrete."}\n\nNëse keni pyetje ose dëshironi të riaplikoni me të dhëna të korrigjuara, ju lutemi na kontaktoni.\n\nStafi i Berber.al`,
+    html: `
+    <div style="font-family:Arial,sans-serif;max-width:480px;margin:0 auto;padding:32px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;color:#1e293b;">
+      <div style="text-align:center;margin-bottom:24px;">${LOGO_HTML}</div>
+      <h2 style="text-align:center;font-size:1.25rem;color:#ef4444;margin-bottom:8px;">Aplikimi nuk u aprovua</h2>
+      <p style="color:#64748b;line-height:1.6;margin-bottom:24px;text-align:center;">
+        Na vjen keq t'ju njoftojmë se aplikimi për sallonin <strong>${salonName}</strong> nuk është aprovuar aktualisht nga administratori.
+      </p>
+      <div style="background:#fef2f2;border-radius:8px;padding:20px;border-left:4px solid #ef4444;margin-bottom:24px;">
+        <h4 style="margin:0 0 8px;color:#991b1b;font-size:0.95rem;">Arsyeja e refuzimit:</h4>
+        <p style="margin:0;color:#7f1d1d;font-size:0.9rem;line-height:1.5;">${reason || "Nuk është specifikuar një arsye konkrete."}</p>
+      </div>
+      <p style="color:#64748b;font-size:0.85rem;line-height:1.6;text-align:center;margin:0 0 24px;">
+        Ju mund të korrigjoni të dhënat dhe të riaplikoni ose të na kontaktoni për detaje të mëtejshme.
+      </p>
+      ${FOOTER_HTML}
+    </div>`,
+  });
+}
+
+// ─── 7. Booking Rejection/Cancellation Email (CANCELLED) ─────────────────────
+export async function sendBookingRejectionEmail(booking, reason) {
+  const { client, service, barber, salon, date } = booking;
+  if (!client?.email) return false;
+
+  const formattedDate = new Date(date).toLocaleDateString("sq-AL", {
+    weekday: "long", year: "numeric", month: "long", day: "numeric",
+  });
+  const formattedTime = new Date(date).toLocaleTimeString("sq-AL", {
+    hour: "2-digit", minute: "2-digit",
+  });
+
+  return sendMail({
+    to: client.email,
+    subject: `❌ Rezervimi u Anulua – ${salon.name}`,
+    text: `Përshëndetje ${client.name},\n\nNa vjen keq t'ju njoftojmë se rezervimi juaj në "${salon.name}" u anulua.\n\nDetajet e rezervimit të anuluar:\n- Shërbimi: ${service.name}\n- Data: ${formattedDate}\n- Ora: ${formattedTime}\n\nArsyeja e anulimit:\n${reason || "Nuk është specifikuar një arsye konkrete."}\n\nFaleminderit,\nStafi i ${salon.name}`,
+    html: `
+    <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;color:#1e293b;">
+      <div style="text-align:center;margin-bottom:24px;">${LOGO_HTML}</div>
+      
+      <div style="background:linear-gradient(135deg,rgba(239,68,68,0.08),rgba(239,68,68,0.04));border:1px solid rgba(239,68,68,0.2);border-radius:12px;padding:24px;text-align:center;margin-bottom:24px;">
+        <div style="font-size:3rem;margin-bottom:12px;">❌</div>
+        <h2 style="margin:0 0 8px;color:#991b1b;font-size:1.3rem;">Rezervimi u Anulua!</h2>
+        <p style="color:#b91c1c;margin:0;font-size:0.95rem;font-weight:600;">Takimi juaj në ${salon.name} u anulua</p>
+      </div>
+
+      <p style="margin-bottom:16px;">Përshëndetje <strong>${client.name}</strong>,</p>
+      <p style="color:#475569;line-height:1.6;margin-bottom:24px;">
+        Na vjen keq t'ju njoftojmë se rezervimi juaj në sallonin <strong>${salon.name}</strong> është anuluar.
+      </p>
+
+      <div style="background:#fef2f2;border-radius:8px;padding:20px;border-left:4px solid #ef4444;margin-bottom:24px;">
+        <h4 style="margin:0 0 8px;color:#991b1b;font-size:0.95rem;">Arsyeja e anulimit:</h4>
+        <p style="margin:0;color:#7f1d1d;font-size:0.9rem;line-height:1.5;">${reason || "Nuk është specifikuar një arsye konkrete."}</p>
+      </div>
+
+      <div style="background:#f8fafc;border-radius:8px;padding:20px;margin-bottom:24px;">
+        <h3 style="margin:0 0 16px;color:#1e293b;font-size:1rem;">Detajet e rezervimit të anuluar:</h3>
+        <table style="width:100%;border-collapse:collapse;">
+          <tr><td style="padding:6px 0;color:#64748b;width:40%;">✂️ Shërbimi:</td><td style="padding:6px 0;font-weight:600;">${service.name}</td></tr>
+          <tr><td style="padding:6px 0;color:#64748b;">📅 Data:</td><td style="padding:6px 0;font-weight:600;text-transform:capitalize;">${formattedDate}</td></tr>
+          <tr><td style="padding:6px 0;color:#64748b;">🕐 Ora:</td><td style="padding:6px 0;font-weight:600;">${formattedTime}</td></tr>
+        </table>
+      </div>
+
+      <p style="color:#64748b;font-size:0.9rem;line-height:1.6;">Nëse keni pyetje, ju lutemi kontaktoni direkt sallonin.</p>
+      ${FOOTER_HTML}
+    </div>`,
+  });
+}

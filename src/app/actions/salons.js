@@ -3,7 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { sendSalonApprovalEmail } from "@/lib/email";
+import { sendSalonApprovalEmail, sendSalonRejectionEmail } from "@/lib/email";
  
 export async function getSalon() {
   try {
@@ -107,23 +107,26 @@ export async function deleteSalon(id) {
   }
 }
 
-export async function approveSalon(id, isApproved) {
+export async function approveSalon(id, isApproved, reason = "") {
   try {
     const salon = await prisma.salon.update({
       where: { id },
       data: { isApproved }
     });
 
-    if (isApproved) {
-      // Gjej pronarin e sallonit të lidhur me këtë ID
-      const owner = await prisma.user.findFirst({
-        where: {
-          salonId: id,
-          role: "SALON_OWNER"
-        }
-      });
-      if (owner && owner.email) {
+    // Gjej pronarin e sallonit të lidhur me këtë ID
+    const owner = await prisma.user.findFirst({
+      where: {
+        salonId: id,
+        role: "SALON_OWNER"
+      }
+    });
+
+    if (owner && owner.email) {
+      if (isApproved) {
         await sendSalonApprovalEmail(owner.email, salon.name);
+      } else {
+        await sendSalonRejectionEmail(owner.email, salon.name, reason);
       }
     }
 

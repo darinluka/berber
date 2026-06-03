@@ -164,11 +164,20 @@ export async function loginUser(email, password) {
       return { success: false, error: "Ju lutem plotësoni të gjitha fushat." };
     }
 
-    // Hardcoded admin login
-    if (email === "admin@berber.al" && password === "admin") {
-      const cookieStore = await cookies();
-      cookieStore.set("currentUserRole", "ADMIN", { path: "/", maxAge: 60 * 60 * 24 * 7 });
-      return { success: true, role: "ADMIN", redirectTo: "/admin" };
+    // Ensure admin user exists in DB
+    if (email === "admin@berber.al") {
+      const adminExists = await prisma.user.findUnique({ where: { email } });
+      if (!adminExists) {
+        const hashedPassword = await bcrypt.hash("admin", 12);
+        await prisma.user.create({
+          data: {
+            email: "admin@berber.al",
+            name: "Super Admin",
+            password: hashedPassword,
+            role: "ADMIN"
+          }
+        });
+      }
     }
 
     const user = await prisma.user.findUnique({ where: { email } });

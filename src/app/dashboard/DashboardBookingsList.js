@@ -11,18 +11,37 @@ export default function DashboardBookingsList({ initialBookings }) {
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [loadingId, setLoadingId] = useState(null);
 
-  const handleStatusChange = async (id, newStatus) => {
+  // Cancellation modal states
+  const [cancellationModalOpen, setCancellationModalOpen] = useState(false);
+  const [bookingToCancel, setBookingToCancel] = useState(null);
+  const [cancellationReason, setCancellationReason] = useState("");
+
+  const handleStatusChange = async (id, newStatus, reason = "") => {
+    if (newStatus === "CANCELLED" && !reason) {
+      setBookingToCancel(id);
+      setCancellationReason("");
+      setCancellationModalOpen(true);
+      return;
+    }
+
     setLoadingId(id);
-    const res = await updateBookingStatus(id, newStatus);
+    const res = await updateBookingStatus(id, newStatus, reason);
     if (res.success) {
       // Update local state
       setBookings(prev => prev.map(b => b.id === id ? { ...b, status: newStatus } : b));
       // Refresh page data (updates stats cards)
       router.refresh();
+      closeCancellationModal();
     } else {
       alert("Gabim gjatë përditësimit: " + res.error);
     }
     setLoadingId(null);
+  };
+
+  const closeCancellationModal = () => {
+    setCancellationModalOpen(false);
+    setBookingToCancel(null);
+    setCancellationReason("");
   };
 
   // Filter bookings
@@ -215,6 +234,57 @@ export default function DashboardBookingsList({ initialBookings }) {
           </tbody>
         </table>
       </div>
+
+      {/* Booking Cancellation Modal */}
+      {cancellationModalOpen && (
+        <div className="modal-overlay" onClick={closeCancellationModal} style={{
+          position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: "rgba(9, 9, 11, 0.75)", backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)", display: "flex", alignItems: "center",
+          justifyContent: "center", zIndex: 99999, padding: "1.5rem"
+        }}>
+          <div className="card fade-in" style={{
+            width: "100%", maxWidth: "480px", background: "var(--surface)",
+            border: "1px solid var(--border)", borderRadius: "var(--radius-lg)",
+            padding: "2.5rem", margin: "auto", boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.25)"
+          }} onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-6">
+              <h2 style={{ margin: 0, fontSize: "1.4rem" }}>Anulimi i Rezervimit 🛑</h2>
+              <button onClick={closeCancellationModal} style={{ background: "none", border: "none", fontSize: "1.5rem", cursor: "pointer", color: "var(--text-muted)" }}>×</button>
+            </div>
+            
+            <p className="text-muted mb-6" style={{ fontSize: "0.9rem", lineHeight: 1.5 }}>
+              Ju lutem shkruani arsyen e anulimit. Kjo arsye do t'i dërgohet automatikisht me email klientit.
+            </p>
+
+            <div className="mb-6">
+              <label className="text-muted mb-2" style={{ display: "block", fontSize: "0.875rem" }}>Arsyeja e Anulimit</label>
+              <textarea
+                className="card"
+                style={{ width: "100%", background: "var(--background)", height: "120px", padding: "0.8rem", resize: "none" }}
+                value={cancellationReason}
+                onChange={(e) => setCancellationReason(e.target.value)}
+                placeholder="P.sh. Orari nuk është më i lirë..."
+                required
+              />
+            </div>
+
+            <div className="flex gap-4">
+              <button type="button" className="btn btn-secondary flex-1" onClick={closeCancellationModal}>Mbrapa</button>
+              <button
+                type="button"
+                className="btn btn-primary flex-1"
+                style={{ background: "var(--danger)", color: "white" }}
+                disabled={loadingId !== null || !cancellationReason.trim()}
+                onClick={() => handleStatusChange(bookingToCancel, "CANCELLED", cancellationReason)}
+              >
+                {loadingId !== null ? "Duke u dërguar..." : "Anulo Rezervimin"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

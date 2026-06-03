@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { updatePassword, getUserByEmail, updateUserAvatar } from "@/app/actions/users";
 import { getSalon, updateSalon } from "@/app/actions/salons";
+import { getCurrentUser } from "@/app/actions/auth";
 import dynamic from "next/dynamic";
 
 // Dynamically import MapPicker with no SSR to avoid window is not defined error
@@ -19,6 +20,7 @@ export default function DashboardSettings() {
   const [closedDates, setClosedDates] = useState([]);
   const [newClosedDate, setNewClosedDate] = useState("");
   const [userAvatar, setUserAvatar] = useState(null);
+  const [userEmail, setUserEmail] = useState("salon@berber.al");
   const [location, setLocation] = useState({ lat: null, lng: null });
   const [socialMedia, setSocialMedia] = useState({
     instagram: "", facebook: "", tiktok: "", youtube: "", twitter: ""
@@ -26,7 +28,10 @@ export default function DashboardSettings() {
 
   useEffect(() => {
     async function loadSalon() {
-      const email = "salon@berber.al"; // Hardcoded for demo MVP
+      const user = await getCurrentUser();
+      const email = user?.email || "salon@berber.al";
+      setUserEmail(email);
+
       const [salonResult, userResult] = await Promise.all([
         getSalon(),
         getUserByEmail(email)
@@ -63,7 +68,7 @@ export default function DashboardSettings() {
   const handlePasswordChange = async (e) => {
     e.preventDefault();
     setSaving(true);
-    const result = await updatePassword("salon@berber.al", password);
+    const result = await updatePassword(userEmail, password);
     if (result.success) {
       alert("Fjalëkalimi u ndryshua me sukses!");
       setPassword("");
@@ -86,7 +91,7 @@ export default function DashboardSettings() {
     reader.onloadend = async () => {
       setUserAvatar(reader.result);
       setSavingSection('avatar');
-      const result = await updateUserAvatar("salon@berber.al", reader.result);
+      const result = await updateUserAvatar(userEmail, reader.result);
       if (result.success) {
         alert("Avatari u përditësua me sukses!");
       } else {
@@ -181,7 +186,7 @@ export default function DashboardSettings() {
                   onClick={async () => {
                     if (confirm("Jeni të sigurt që doni ta fshini avatarin?")) {
                       setUserAvatar(null);
-                      await updateUserAvatar("salon@berber.al", null);
+                      await updateUserAvatar(userEmail, null);
                     }
                   }}
                   className="text-error block mt-2" 

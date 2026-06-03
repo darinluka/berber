@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { getGlobalSettings, updateGlobalSettings } from "@/app/actions/settings";
 import { updatePassword } from "@/app/actions/users";
+import { getCurrentUser } from "@/app/actions/auth";
 
 export default function AdminSettings() {
   const [settings, setSettings] = useState({
@@ -11,13 +12,18 @@ export default function AdminSettings() {
     footerText: "© 2026 Berber.al. Të gjitha të drejtat e rezervuara.",
     contactEmail: "info@berber.al"
   });
+  const [adminEmail, setAdminEmail] = useState("admin@berber.al");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     async function load() {
-      const data = await getGlobalSettings();
+      const [data, user] = await Promise.all([
+        getGlobalSettings(),
+        getCurrentUser()
+      ]);
       if (data) setSettings(data);
+      if (user && user.email) setAdminEmail(user.email);
       setLoading(false);
     }
     load();
@@ -99,7 +105,7 @@ export default function AdminSettings() {
             e.preventDefault();
             const pass = e.target.password.value;
             if (!pass) return;
-            const res = await updatePassword("admin@berber.al", pass);
+            const res = await updatePassword(adminEmail, pass);
             if (res.success) {
               alert("Fjalëkalimi u ndryshua me sukses!");
               e.target.reset();

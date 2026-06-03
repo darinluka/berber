@@ -2,14 +2,14 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import bcrypt from "bcryptjs";
 
 export async function updatePassword(email, newPassword) {
   try {
-    // In a real app, we would hash the password here
-    // For this MVP/Demo, we store it as is (per user's current setup)
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
     await prisma.user.update({
       where: { email },
-      data: { password: newPassword }
+      data: { password: hashedPassword }
     });
     
     return { success: true };

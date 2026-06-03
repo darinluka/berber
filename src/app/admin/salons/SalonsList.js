@@ -13,6 +13,11 @@ export default function SalonsList({ initialSalons }) {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [salonToDelete, setSalonToDelete] = useState(null);
 
+  // Rejection modal states
+  const [rejectionModalOpen, setRejectionModalOpen] = useState(false);
+  const [salonToReject, setSalonToReject] = useState(null);
+  const [rejectionReason, setRejectionReason] = useState("");
+
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -155,9 +160,43 @@ export default function SalonsList({ initialSalons }) {
   };
 
   const handleApprove = async (id, currentStatus) => {
-    const result = await approveSalon(id, !currentStatus);
-    if (result.success) {
-      setSalons(prev => prev.map(s => s.id === id ? { ...s, isApproved: !currentStatus } : s));
+    if (!currentStatus) {
+      setLoading(true);
+      const result = await approveSalon(id, true);
+      if (result.success) {
+        setSalons(prev => prev.map(s => s.id === id ? { ...s, isApproved: true } : s));
+      } else {
+        alert("Gabim gjatë aprovimit: " + result.error);
+      }
+      setLoading(false);
+    } else {
+      openRejectionModal(id);
+    }
+  };
+
+  const openRejectionModal = (id) => {
+    setSalonToReject(id);
+    setRejectionReason("");
+    setRejectionModalOpen(true);
+  };
+
+  const closeRejectionModal = () => {
+    setRejectionModalOpen(false);
+    setSalonToReject(null);
+    setRejectionReason("");
+  };
+
+  const handleConfirmRejection = async () => {
+    if (salonToReject) {
+      setLoading(true);
+      const result = await approveSalon(salonToReject, false, rejectionReason);
+      if (result.success) {
+        setSalons(prev => prev.map(s => s.id === salonToReject ? { ...s, isApproved: false } : s));
+        closeRejectionModal();
+      } else {
+        alert("Gabim gjatë refuzimit: " + result.error);
+      }
+      setLoading(false);
     }
   };
 
@@ -237,18 +276,56 @@ export default function SalonsList({ initialSalons }) {
                 <td style={{ padding: '1.25rem' }}>{salon._count?.users ?? 0} berberë</td>
                 <td style={{ padding: '1.25rem' }}>{salon._count?.bookings ?? 0} totale</td>
                 <td style={{ padding: '1.25rem' }}>
-                  <button
-                    onClick={() => handleApprove(salon.id, salon.isApproved)}
-                    style={{
-                      padding: '0.3rem 0.75rem', borderRadius: 'var(--radius-full)',
-                      fontSize: '0.75rem', fontWeight: 700, border: 'none', cursor: 'pointer',
-                      background: salon.isApproved ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)',
-                      color: salon.isApproved ? 'var(--success)' : 'var(--warning)',
-                      transition: 'all 0.2s'
-                    }}
-                  >
-                    {salon.isApproved ? '✓ Aprovuar' : '⏳ Aprovo'}
-                  </button>
+                  <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                    {salon.isApproved ? (
+                      <>
+                        <span style={{
+                          padding: '0.3rem 0.75rem', borderRadius: 'var(--radius-full)',
+                          fontSize: '0.75rem', fontWeight: 700,
+                          background: 'rgba(16,185,129,0.15)',
+                          color: 'var(--success)'
+                        }}>
+                          ✓ Aprovuar
+                        </span>
+                        <button
+                          onClick={() => openRejectionModal(salon.id)}
+                          style={{
+                            padding: '0.3rem 0.6rem', borderRadius: 'var(--radius-md)',
+                            fontSize: '0.7rem', fontWeight: 700, border: '1px solid var(--border)', cursor: 'pointer',
+                            background: 'transparent', color: 'var(--error)',
+                            transition: 'all 0.2s'
+                          }}
+                        >
+                          Refuzo
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => handleApprove(salon.id, false)}
+                          style={{
+                            padding: '0.3rem 0.75rem', borderRadius: 'var(--radius-full)',
+                            fontSize: '0.75rem', fontWeight: 700, border: 'none', cursor: 'pointer',
+                            background: 'rgba(245,158,11,0.15)', color: 'var(--warning)',
+                            transition: 'all 0.2s'
+                          }}
+                        >
+                          ⏳ Aprovo
+                        </button>
+                        <button
+                          onClick={() => openRejectionModal(salon.id)}
+                          style={{
+                            padding: '0.3rem 0.6rem', borderRadius: 'var(--radius-md)',
+                            fontSize: '0.7rem', fontWeight: 700, border: '1px solid var(--border)', cursor: 'pointer',
+                            background: 'transparent', color: 'var(--error)',
+                            transition: 'all 0.2s'
+                          }}
+                        >
+                          Refuzo
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </td>
                 <td style={{ padding: '1.25rem' }}>
                   <button
@@ -392,6 +469,56 @@ export default function SalonsList({ initialSalons }) {
           setSalonToDelete(null);
         }}
       />
+
+      {/* Rejection Reason Modal */}
+      {rejectionModalOpen && (
+        <div className="modal-overlay" onClick={closeRejectionModal} style={{
+          position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: "rgba(9, 9, 11, 0.75)", backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)", display: "flex", alignItems: "center",
+          justifyContent: "center", zIndex: 99999, padding: "1.5rem"
+        }}>
+          <div className="card fade-in" style={{
+            width: "100%", maxWidth: "480px", background: "var(--surface)",
+            border: "1px solid var(--border)", borderRadius: "var(--radius-lg)",
+            padding: "2.5rem", margin: "auto", boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.25)"
+          }} onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-6">
+              <h2 style={{ margin: 0, fontSize: "1.4rem" }}>Refuzimi i Sallonit 🛑</h2>
+              <button onClick={closeRejectionModal} style={{ background: "none", border: "none", fontSize: "1.5rem", cursor: "pointer", color: "var(--text-muted)" }}>×</button>
+            </div>
+            
+            <p className="text-muted mb-6" style={{ fontSize: "0.9rem", lineHeight: 1.5 }}>
+              Ju lutem shkruani arsyen e refuzimit. Kjo arsye do t'i dërgohet automatikisht me email pronarit të sallonit.
+            </p>
+
+            <div className="mb-6">
+              <label className="text-muted mb-2" style={{ display: "block", fontSize: "0.875rem" }}>Arsyeja e Refuzimit</label>
+              <textarea
+                className="card"
+                style={{ width: "100%", background: "var(--background)", height: "120px", padding: "0.8rem", resize: "none" }}
+                value={rejectionReason}
+                onChange={(e) => setRejectionReason(e.target.value)}
+                placeholder="P.sh. Të dhënat tuaja nuk janë të sakta..."
+                required
+              />
+            </div>
+
+            <div className="flex gap-4">
+              <button type="button" className="btn btn-secondary flex-1" onClick={closeRejectionModal}>Anulo</button>
+              <button
+                type="button"
+                className="btn btn-primary flex-1"
+                style={{ background: "var(--danger)", color: "white" }}
+                disabled={loading || !rejectionReason.trim()}
+                onClick={handleConfirmRejection}
+              >
+                {loading ? "Duke u dërguar..." : "Refuzo Sallonin"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );
