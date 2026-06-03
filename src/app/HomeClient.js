@@ -106,8 +106,8 @@ export default function HomeClient({ initialSalons }) {
       <style dangerouslySetInnerHTML={{__html: `
         .hero-title-serif {
           font-family: var(--font-serif) !important;
-          font-weight: 500 !important;
-          font-size: clamp(2.5rem, 6.5vw, 4.25rem) !important;
+          font-weight: 900 !important;
+          font-size: clamp(2.6rem, 7vw, 4.5rem) !important;
           line-height: 1.15 !important;
           letter-spacing: -0.01em;
         }
@@ -116,46 +116,48 @@ export default function HomeClient({ initialSalons }) {
           position: relative;
           display: inline-block;
           font-style: italic;
+          font-weight: 900 !important;
         }
         .hero-subtitle {
           color: var(--primary);
           font-family: var(--font-heading);
           font-weight: 700;
-          font-size: 0.9rem;
-          letter-spacing: 0.3em;
+          font-size: 0.95rem;
+          letter-spacing: 0.35em;
           text-transform: uppercase;
           margin-bottom: 1rem;
         }
         .hero-desc {
-          color: rgba(255, 255, 255, 0.75);
-          font-size: 1.2rem;
-          max-width: 620px;
+          color: rgba(255, 255, 255, 0.85);
+          font-size: 1.25rem;
+          max-width: 650px;
           margin: 0 auto 3rem;
           line-height: 1.6;
+          font-weight: 500;
         }
         .search-pill-container {
           display: flex;
           align-items: center;
           padding: 0.5rem;
-          background: rgba(19, 16, 14, 0.75);
+          background: rgba(19, 16, 14, 0.85);
           border-radius: var(--radius-full);
-          border: 1px solid rgba(212, 175, 55, 0.25);
+          border: 1px solid rgba(212, 175, 55, 0.3);
           width: 100%;
           max-width: 620px;
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           transition: all 0.3s ease;
         }
         .search-pill-container:focus-within {
           border-color: var(--primary);
-          box-shadow: 0 20px 40px rgba(212, 175, 55, 0.15);
+          box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
         }
         .search-magnifier {
           color: var(--primary);
           margin-left: 1.25rem;
           flex-shrink: 0;
-          opacity: 0.8;
+          opacity: 0.9;
         }
         .search-input-pill {
           flex: 1;
@@ -165,16 +167,17 @@ export default function HomeClient({ initialSalons }) {
           color: #ffffff;
           padding: 0 1rem;
           font-size: 1.05rem;
+          font-weight: 500;
         }
         .search-input-pill::placeholder {
-          color: rgba(255,255,255,0.4);
+          color: rgba(255,255,255,0.45);
         }
         
         .section-badge {
           color: var(--primary);
           font-family: var(--font-heading);
-          font-weight: 700;
-          font-size: 0.75rem;
+          font-weight: 800;
+          font-size: 0.8rem;
           letter-spacing: 0.25em;
           text-transform: uppercase;
           margin-bottom: 0.5rem;
@@ -182,13 +185,14 @@ export default function HomeClient({ initialSalons }) {
         }
         .section-title-serif {
           font-family: var(--font-serif);
-          font-size: clamp(1.8rem, 4vw, 2.35rem);
-          font-weight: 500;
+          font-size: clamp(2rem, 5vw, 2.75rem);
+          font-weight: 800 !important;
           margin-top: 0.25rem;
           line-height: 1.2;
         }
         .section-title-serif span {
           color: var(--primary);
+          font-weight: 800 !important;
         }
         
         .editorial-card {
@@ -234,7 +238,7 @@ export default function HomeClient({ initialSalons }) {
           position: absolute;
           top: 1.25rem;
           left: 1.25rem;
-          background: rgba(9, 8, 7, 0.7);
+          background: rgba(9, 8, 7, 0.85);
           backdrop-filter: blur(8px);
           -webkit-backdrop-filter: blur(8px);
           border: 1px solid rgba(212, 175, 55, 0.35);
@@ -242,7 +246,7 @@ export default function HomeClient({ initialSalons }) {
           padding: 0.35rem 0.75rem;
           border-radius: 4px;
           font-size: 0.65rem;
-          font-weight: 700;
+          font-weight: 800;
           letter-spacing: 0.1em;
           text-transform: uppercase;
           z-index: 5;
@@ -251,7 +255,7 @@ export default function HomeClient({ initialSalons }) {
           position: absolute;
           top: 1.25rem;
           right: 1.25rem;
-          background: rgba(9, 8, 7, 0.7);
+          background: rgba(9, 8, 7, 0.85);
           backdrop-filter: blur(8px);
           -webkit-backdrop-filter: blur(8px);
           border: 1px solid rgba(255, 255, 255, 0.15);
@@ -259,7 +263,7 @@ export default function HomeClient({ initialSalons }) {
           padding: 0.35rem 0.65rem;
           border-radius: 4px;
           font-size: 0.7rem;
-          font-weight: 700;
+          font-weight: 800;
           display: flex;
           align-items: center;
           gap: 0.25rem;
@@ -270,7 +274,7 @@ export default function HomeClient({ initialSalons }) {
           background-color: var(--surface);
           border: 1px solid var(--border);
           border-radius: var(--radius-md);
-          padding: 2rem;
+          padding: 1.25rem;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -297,97 +301,144 @@ export default function HomeClient({ initialSalons }) {
         .service-price-serif {
           font-family: var(--font-serif);
           font-size: 1.75rem;
-          font-weight: 500;
+          font-weight: 800 !important;
           color: var(--primary);
           margin-top: 1rem;
+        }
+
+        /* Responsive Mobile Layout Tweaks */
+        @media (max-width: 768px) {
+          .hero-section-mobile {
+            padding: 7rem 0 5rem !important;
+          }
+          .editorial-card {
+            height: 410px !important;
+          }
+          .editorial-card-gradient {
+            background: linear-gradient(to bottom, rgba(9, 8, 7, 0.05) 0%, rgba(9, 8, 7, 0.4) 35%, rgba(9, 8, 7, 0.98) 100%) !important;
+          }
+          .card-glass-badge-left {
+            top: 1rem !important;
+            left: 1rem !important;
+          }
+          .card-glass-badge-right {
+            top: 1rem !important;
+            right: 1rem !important;
+          }
+        }
+        @media (min-width: 768px) {
+          .service-static-card {
+            padding: 2rem !important;
+          }
         }
       `}} />
 
       {/* Hero Section */}
-      <section style={{
-        padding: "10rem 0 9rem",
-        textAlign: "center",
-        backgroundImage: "linear-gradient(to bottom, rgba(9, 8, 7, 0.45) 0%, rgba(9, 8, 7, 0.95) 100%), url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=1600')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        borderBottom: "1px solid var(--border)",
-        marginBottom: "2rem",
-        position: "relative"
-      }}>
+      <section 
+        className="hero-section-mobile"
+        style={{
+          padding: "9rem 0 7rem",
+          borderBottom: "1px solid var(--border)",
+          position: "relative",
+          background: "#090807"
+        }}
+      >
         <div className="container" style={{ position: "relative", zIndex: 5 }}>
-          <p className="hero-subtitle">Mjeshtëri Klasike</p>
-          <h1 className="hero-title-serif">
-            Gjej Berberin <br />
-            <span className="text-gold-outline">Tënd Ideal</span>
-          </h1>
-          <p className="hero-desc">
-            Eksploro sallonet më të mira në Shqipëri dhe rezervo në pak sekonda.
-          </p>
+          <div className="hero-grid">
+            <div className="hero-text-container">
+              <p className="hero-subtitle" style={{ color: 'var(--primary)', letterSpacing: '0.25em', textTransform: 'uppercase', fontSize: '0.8rem', fontWeight: 800, marginBottom: '1.25rem' }}>
+                Mjeshtëri Klasike
+              </p>
+              <h1 style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4rem)', lineHeight: 1.15, marginBottom: '1.5rem', fontWeight: 800 }}>
+                Arti i <br />
+                <span className="text-gold-serif-italic">Precizionit</span> Modern
+              </h1>
+              <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', lineHeight: 1.6, maxWidth: '520px', marginBottom: '2.5rem' }}>
+                Mirësevini në platformën tonë të dedikuar për të gjetur sallonin e duhur. Këtu mund të rezervoni takime dhe të eksploroni sallonet më të mira në Shqipëri.
+              </p>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <Link href="#sallonet" className="btn btn-primary" style={{ padding: "0.9rem 2.2rem", borderRadius: "var(--radius-sm)", fontWeight: 700, fontSize: "0.95rem" }}>
+                  Rezervo Tani
+                </Link>
+                <Link 
+                  href="#sallonet" 
+                  style={{ 
+                    display: "inline-flex", 
+                    alignItems: "center", 
+                    gap: "0.5rem", 
+                    color: "#ffffff", 
+                    fontWeight: 700, 
+                    fontSize: "0.95rem", 
+                    marginLeft: "2rem", 
+                    textDecoration: "none", 
+                    transition: "color 0.2s" 
+                  }} 
+                  onMouseEnter={e => e.currentTarget.style.color = "var(--primary)"} 
+                  onMouseLeave={e => e.currentTarget.style.color = "#ffffff"}
+                >
+                  Shiko Sallonet <span style={{ color: "var(--primary)" }}>→</span>
+                </Link>
+              </div>
+            </div>
 
-          <div className="flex justify-center" style={{ margin: "0 auto" }}>
-            <div className="search-pill-container search-container-mobile">
-              <span className="search-magnifier">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-              </span>
-              <input
-                type="text"
-                className="search-input-pill"
-                placeholder="Kërko sallonin, rrugën, ose qytetin..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <div className="search-buttons-container" style={{ display: "flex", gap: "0.5rem" }}>
-                <button
-                  onClick={handleNearMe}
-                  className={`btn ${isNearMeActive ? "btn-primary" : "btn-secondary"} search-btn-mobile`}
-                  style={{
-                    borderRadius: "var(--radius-full)", padding: "0.6rem 1.35rem",
-                    display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.9rem",
-                    border: isNearMeActive ? "2px solid rgba(255,255,255,0.2)" : "1px solid rgba(212, 175, 55, 0.15)",
-                    boxShadow: isNearMeActive ? "0 0 15px var(--primary)" : "none", whiteSpace: "nowrap",
-                    fontWeight: 600
-                  }}
-                >
-                  📍 {isNearMeActive ? "Më Afër" : "Afër Meje"}
-                </button>
-                <button 
-                  className="btn btn-primary search-btn-mobile" 
-                  style={{ borderRadius: "var(--radius-full)", padding: "0.6rem 1.75rem", fontSize: "0.9rem", fontWeight: 600 }}
-                  onClick={() => {
-                    if (resultsRef.current) resultsRef.current.scrollIntoView({ behavior: "smooth" });
-                  }}
-                >
-                  Kërko
-                </button>
+            <div className="hero-collage-container">
+              <div className="hero-collage-wrapper">
+                <img 
+                  src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=800" 
+                  alt="Luxury Barbershop Interior" 
+                  className="hero-img-main" 
+                />
+                <div className="hero-img-sub-wrapper">
+                  <img 
+                    src="https://images.unsplash.com/photo-1593702295094-aec22597af65?w=400" 
+                    alt="Barber Tools Close-Up" 
+                    className="hero-img-sub" 
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Hero Slider status tracker */}
-        <div style={{
-          position: "absolute",
-          bottom: "2.5rem",
-          right: "5%",
-          display: "flex",
-          alignItems: "center",
-          gap: "1rem",
-          color: "rgba(255,255,255,0.4)",
-          fontSize: "0.85rem",
-          fontWeight: 700,
-          fontFamily: "var(--font-heading)"
-        }}>
-          <span style={{ color: "var(--primary)" }}>01</span>
-          <span style={{ display: "inline-block", width: "40px", height: "1px", background: "var(--primary)" }}></span>
-          <span>03</span>
+      {/* Services Grid Section */}
+      <section className="container" style={{ padding: "6rem 0" }} id="sherbimet">
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3.5rem", width: "100%", flexWrap: "wrap", gap: "1rem" }}>
+          <div>
+            <span className="section-badge">Shërbimet</span>
+            <h2 className="section-title-serif">Shërbime të Kuruara</h2>
+            <p className="text-muted" style={{ marginTop: "0.5rem" }}>Nga prerjet klasike tek trajtimet moderne</p>
+          </div>
+          <Link href="#sallonet" className="text-muted" style={{ fontSize: "0.9rem", color: "var(--primary)", fontWeight: 700, display: "flex", alignItems: "center", gap: "0.25rem" }}>
+            Shiko Shërbimet <span style={{ transition: "transform 0.2s" }} onMouseEnter={e => e.currentTarget.style.transform = "translateX(3px)"} onMouseLeave={e => e.currentTarget.style.transform = "none"}>→</span>
+          </Link>
+        </div>
+        
+        <div className="services-grid-luxury">
+          {[
+            { num: "01", name: "Prerje Flokësh", desc: "Një prerje e personalizuar që përshtatet me tiparet dhe stilin tuaj." },
+            { num: "02", name: "Rrojë & Mjekër", desc: "Rrojë klasike me peshqir të ngrohtë dhe stilim profesional mjekre." },
+            { num: "03", name: "Stilime Flokësh", desc: "Nga stilet klasike tek ato moderne, stilim profesional për çdo rast." },
+            { num: "04", name: "Larje & Stilim", desc: "Larje me produkte premium dhe stilim i plotë për flokët tuaj." },
+            { num: "05", name: "Masazh Koke", desc: "Masazh relaksues i kokës që nxit qarkullimin dhe redukton stresin." },
+            { num: "06", name: "Trajtime Fytyre", desc: "Pastrim i thellë, hidrati dhe kujdes i dedikuar për lëkurën." }
+          ].map((item, idx) => (
+            <div key={idx} className="service-card-luxury">
+              <div className="service-card-top">
+                <span className="service-number-gold">{item.num}</span>
+                <h3 className="service-card-title">{item.name}</h3>
+                <p className="service-card-desc">{item.desc}</p>
+              </div>
+              <Link href="#sallonet" className="service-card-link">
+                Gjej sallon <span>→</span>
+              </Link>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* Results Section - 4 columns layout matching screenshot perfectly */}
-      <section className="container" style={{ padding: "4rem 0 4rem" }} ref={resultsRef} id="sallonet">
+      {/* Recommended Salons Section */}
+      <section className="container" style={{ padding: "6rem 0" }} ref={resultsRef} id="sallonet">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3rem", width: "100%", flexWrap: "wrap", gap: "1rem" }}>
           <div>
             <span className="section-badge">Përzgjedhje Editoriale</span>
@@ -400,15 +451,55 @@ export default function HomeClient({ initialSalons }) {
             </h2>
           </div>
           {!searchTerm && (
-            <Link href="#sallonet" className="text-muted" style={{ fontSize: "0.9rem", color: "var(--primary)", fontWeight: 600, display: "flex", alignItems: "center", gap: "0.25rem" }}>
-              Shiko të gjitha <span style={{ transition: "transform 0.2s" }} onMouseEnter={e => e.currentTarget.style.transform = "translateX(3px)"} onMouseLeave={e => e.currentTarget.style.transform = "none"}>→</span>
+            <Link href="#sallonet" className="text-muted" style={{ fontSize: "0.9rem", color: "var(--primary)", fontWeight: 700, display: "flex", alignItems: "center", gap: "0.25rem" }}>
+              Shiko të gjithë <span style={{ transition: "transform 0.2s" }} onMouseEnter={e => e.currentTarget.style.transform = "translateX(3px)"} onMouseLeave={e => e.currentTarget.style.transform = "none"}>→</span>
             </Link>
           )}
         </div>
 
+        {/* Search Bar - Integrated right above cards grid */}
+        <div className="flex justify-center" style={{ marginBottom: "4rem", width: "100%" }}>
+          <div className="search-pill-container search-container-mobile">
+            <span className="search-magnifier">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </span>
+            <input
+              type="text"
+              className="search-input-pill"
+              placeholder="Kërko sallonin, rrugën, ose qytetin..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <div className="search-buttons-container" style={{ display: "flex", gap: "0.5rem" }}>
+              <button
+                onClick={handleNearMe}
+                className={`btn ${isNearMeActive ? "btn-primary" : "btn-secondary"} search-btn-mobile`}
+                style={{
+                  borderRadius: "var(--radius-full)", padding: "0.6rem 1.35rem",
+                  display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.9rem",
+                  border: isNearMeActive ? "2px solid rgba(255,255,255,0.2)" : "1px solid rgba(212, 175, 55, 0.15)",
+                  boxShadow: isNearMeActive ? "0 0 15px var(--primary)" : "none", whiteSpace: "nowrap",
+                  fontWeight: 700
+                }}
+              >
+                📍 {isNearMeActive ? "Më Afër" : "Afër Meje"}
+              </button>
+              <button 
+                className="btn btn-primary search-btn-mobile" 
+                style={{ borderRadius: "var(--radius-full)", padding: "0.6rem 1.75rem", fontSize: "0.9rem", fontWeight: 700 }}
+              >
+                Kërko
+              </button>
+            </div>
+          </div>
+        </div>
+
         {visibleSalons.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 md-grid-cols-4" style={{ padding: "0", gap: "20px" }}>
+            <div className="salons-grid-luxury">
               {visibleSalons.map((salon, index) => {
                 const socialLinks = [
                   { key: "instagram", url: salon.instagram },
@@ -424,33 +515,31 @@ export default function HomeClient({ initialSalons }) {
                 return (
                   <div key={salon.id} style={{ position: "relative" }}>
                     <Link href={`/salon/${salon.id}`} style={{ textDecoration: "none", color: "inherit" }}>
-                      <div className="editorial-card">
-                        {/* Cover Image Wrapper with full height */}
-                        <div className="editorial-card-image-wrapper">
+                      <div className="salon-card-luxury">
+                        {/* Cover Image Wrapper */}
+                        <div className="salon-card-media">
                           <img 
                             src={salon.coverImage || "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800"} 
                             alt={salon.name}
-                            className="editorial-card-image"
+                            className="salon-card-img"
                           />
-                          {/* Rich bottom overlay gradient */}
-                          <div className="editorial-card-gradient"></div>
                         </div>
 
                         {/* Top Badges */}
-                        <div className="card-glass-badge-left">
+                        <div className="salon-card-badge-left">
                           {badgeText}
                         </div>
-                        <div className="card-glass-badge-right">
+                        <div className="salon-card-badge-right">
                           ⭐ {salon.rating || "4.8"}
                         </div>
 
-                        {/* Social Media Icons on image middle-right */}
+                        {/* Social Media Icons */}
                         {socialLinks.length > 0 && (
                           <div
                             style={{
                               position: "absolute",
                               top: "4rem",
-                              right: "1.25rem",
+                              right: "1rem",
                               display: "flex",
                               flexDirection: "column",
                               gap: "0.4rem",
@@ -488,26 +577,17 @@ export default function HomeClient({ initialSalons }) {
                           </div>
                         )}
 
-                        {/* Bottom Info overlayed on image (Recreated exactly from screenshot) */}
-                        <div style={{ 
-                          position: "absolute", 
-                          bottom: 0, 
-                          left: 0, 
-                          width: "100%", 
-                          padding: "1.75rem 1.5rem", 
-                          zIndex: 5,
-                          display: "flex",
-                          flexDirection: "column"
-                        }}>
-                          <h3 style={{ fontSize: "1.25rem", marginBottom: "0.35rem", fontWeight: 500, fontFamily: "var(--font-serif)", color: "#fff" }}>
+                        {/* Card Content */}
+                        <div className="salon-card-content">
+                          <h3 className="salon-card-title">
                             {salon.name}
                           </h3>
-                          <p style={{ fontSize: "0.85rem", marginBottom: "1.25rem", color: "rgba(255,255,255,0.7)" }}>
+                          <p className="salon-card-address">
                             {salon.address || "Rruga Myslym Shyri, Tiranë"}
                           </p>
-                          <div className="flex justify-between items-center" style={{ borderTop: "1px solid rgba(255,255,255,0.12)", paddingTop: "0.9rem" }}>
-                            <span style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.5)" }}>{salon.hours || "09:00 - 21:00"}</span>
-                            <span style={{ fontWeight: 600, color: "var(--primary)", fontSize: "0.85rem", display: "flex", alignItems: "center" }}>
+                          <div className="salon-card-footer">
+                            <span className="salon-card-hours">{salon.hours || "09:00 - 21:00"}</span>
+                            <span className="salon-card-link">
                               Rezervo →
                             </span>
                           </div>
@@ -523,7 +603,7 @@ export default function HomeClient({ initialSalons }) {
               <div className="flex justify-center mt-12">
                 <button
                   className="btn btn-secondary"
-                  style={{ padding: "0.9rem 2.5rem", fontSize: "1rem", borderRadius: "var(--radius-full)", fontWeight: 600 }}
+                  style={{ padding: "0.9rem 2.5rem", fontSize: "1rem", borderRadius: "var(--radius-full)", fontWeight: 700 }}
                   onClick={() => setVisibleCount(prev => prev + 8)}
                 >
                   Shiko më shumë sallone 💈
@@ -551,48 +631,45 @@ export default function HomeClient({ initialSalons }) {
         )}
       </section>
 
-      {/* Services Grid Section */}
-      <section className="container" style={{ padding: "5rem 0 5rem" }} id="sherbimet">
-        <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-          <span className="section-badge">Shërbimet</span>
-          <h2 className="section-title-serif">Çdo gjë që të duhet, në <span>një vend</span></h2>
-        </div>
-        <div className="grid grid-cols-1 md-grid-cols-4" style={{ gap: "20px" }}>
-          {[
-            { name: "Prerje Flokësh", duration: "30 min", price: "800 L", icon: "✂️" },
-            { name: "Rruajtje Mjekre", duration: "20 min", price: "500 L", icon: "🪒" },
-            { name: "Larje & Stilim", duration: "45 min", price: "1200 L", icon: "🧴" },
-            { name: "Paketa VIP", duration: "60 min", price: "2500 L", icon: "⭐" }
-          ].map((item, idx) => (
-            <div key={idx} className="service-static-card">
-              <div>
-                <div className="service-icon-box">{item.icon}</div>
-                <h3 style={{ fontSize: "1.25rem", fontWeight: 500, fontFamily: "var(--font-serif)", marginBottom: "0.25rem" }}>{item.name}</h3>
-                <p className="text-muted" style={{ fontSize: "0.85rem" }}>{item.duration}</p>
-              </div>
-              <p className="service-price-serif">{item.price}</p>
-            </div>
-          ))}
+      {/* Quote Section */}
+      <section className="quote-section">
+        <div className="container">
+          <p className="quote-text-serif">
+            "Flokët e një burri janë deklarata e tij e qëllimit."
+          </p>
+          <div className="quote-image-wrapper">
+            <img 
+              src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=1200&q=80" 
+              alt="Luxury Lounge Area" 
+              className="quote-image" 
+            />
+          </div>
         </div>
       </section>
 
       {/* Map Section */}
-      <section className="container" style={{ marginBottom: "8rem", padding: "3rem 0" }} id="harta">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "2.5rem", flexWrap: "wrap", gap: "1rem" }}>
+      <section className="container" style={{ padding: "6rem 0", borderTop: "1px solid rgba(212, 175, 55, 0.05)" }} id="harta">
+        <div className="map-grid-luxury">
           <div>
             <span className="section-badge">Harta</span>
-            <h2 className="section-title-serif">Gjej sallonin më të <span>afërt</span></h2>
-            <p className="text-muted" style={{ marginTop: "0.5rem" }}>Aktivizo lokacionin tënd dhe shiko në kohë reale sallonet rreth teje.</p>
+            <h2 className="section-title-serif" style={{ fontSize: "clamp(2rem, 4vw, 2.75rem)", marginBottom: "1.5rem" }}>
+              Gjeni sallonin më të <span>afërt</span>
+            </h2>
+            <p className="text-muted" style={{ fontSize: "1.05rem", lineHeight: "1.6", marginBottom: "2.5rem", maxWidth: "480px" }}>
+              Harta jonë ju ndihmon të gjeni sallonin më të afërt dhe të rezervoni direkt. Aktivizoni lokacionin tuaj për të parë sallonet në kohë reale rreth jush.
+            </p>
+            <button 
+              onClick={handleNearMe} 
+              className="btn btn-primary"
+              style={{ borderRadius: "var(--radius-sm)", padding: "1rem 2.2rem", fontSize: "0.95rem", fontWeight: 700 }}
+            >
+              Kërko në Hartë
+            </button>
           </div>
-          <button 
-            onClick={handleNearMe} 
-            className="btn btn-primary"
-            style={{ borderRadius: "var(--radius-full)", padding: "0.75rem 1.75rem", fontSize: "0.9rem", fontWeight: 600 }}
-          >
-            Hap Hartën →
-          </button>
+          <div>
+            <Map salons={filteredSalons} userLocation={userLocation} isNearMeActive={isNearMeActive} />
+          </div>
         </div>
-        <Map salons={filteredSalons} userLocation={userLocation} isNearMeActive={isNearMeActive} />
       </section>
     </div>
   );

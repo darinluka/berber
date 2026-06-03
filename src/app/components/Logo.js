@@ -12,7 +12,7 @@ export default function Logo({ initialTitle }) {
           src="/logo.png" 
           alt="Berber.al Logo" 
           className="logo-img"
-          style={{ height: '160px', width: 'auto', objectFit: 'contain' }}
+          style={{ width: 'auto', objectFit: 'contain' }}
           onError={() => setError(true)}
         />
       ) : (

@@ -73,9 +73,15 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3 {
+h1 {
   font-family: var(--font-serif);
-  font-weight: 500;
+  font-weight: 800; /* Bolder, modern heavyweight */
+  line-height: 1.15;
+}
+
+h2, h3 {
+  font-family: var(--font-serif);
+  font-weight: 700; /* Strong bold */
   line-height: 1.25;
 }
 
@@ -312,7 +318,7 @@ button {
 }
 
 .logo-img {
-  height: 160px;
+  height: 48px;
   width: auto;
   transition: all 0.3s ease;
 }
@@ -323,44 +329,440 @@ button {
   filter: drop-shadow(0 0 1px rgba(0,0,0,0.5)) drop-shadow(0 0 10px rgba(0,0,0,0.1));
 }
 
+/* Luxury design utilities */
+.text-gold-serif-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 4rem;
+  align-items: center;
+  text-align: left;
+}
+
+.hero-text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.hero-collage-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hero-collage-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  height: 480px;
+}
+
+.hero-img-main {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.hero-img-sub-wrapper {
+  position: absolute;
+  bottom: -30px;
+  left: -40px;
+  width: 180px;
+  height: 180px;
+  border-radius: var(--radius-md);
+  border: 6px solid #090807;
+  overflow: hidden;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
+  z-index: 10;
+  background-color: #090807;
+}
+
+.hero-img-sub {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Services Curated styling */
+.services-grid-luxury {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.service-card-luxury {
+  background: rgba(19, 16, 14, 0.5);
+  border: 1px solid rgba(212, 175, 55, 0.08);
+  border-radius: var(--radius-md);
+  padding: 2.5rem 2rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 250px;
+}
+
+.service-card-luxury:hover {
+  transform: translateY(-5px);
+  border-color: rgba(212, 175, 55, 0.3);
+  background: rgba(19, 16, 14, 0.85);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+}
+
+.service-card-top {
+  display: flex;
+  flex-direction: column;
+}
+
+.service-number-gold {
+  color: var(--primary);
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+  opacity: 0.85;
+}
+
+.service-card-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+}
+
+.service-card-desc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.service-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary);
+  margin-top: 2rem;
+  transition: gap 0.2s ease;
+}
+
+.service-card-luxury:hover .service-card-link {
+  gap: 0.75rem;
+}
+
+/* Quote Section styling */
+.quote-section {
+  padding: 8rem 0;
+  text-align: center;
+  background: #090807;
+  border-top: 1px solid rgba(212, 175, 55, 0.05);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.05);
+}
+
+.quote-text-serif {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 4vw, 2.75rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #ffffff;
+  max-width: 800px;
+  margin: 0 auto 3.5rem;
+  padding: 0 1.5rem;
+}
+
+.quote-image-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  height: 380px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.quote-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Recommended Salons Cards */
+.salons-grid-luxury {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.salon-card-luxury {
+  background: rgba(19, 16, 14, 0.4);
+  border: 1px solid rgba(212, 175, 55, 0.08);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.salon-card-luxury:hover {
+  transform: translateY(-8px);
+  border-color: rgba(212, 175, 55, 0.3);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  background: rgba(19, 16, 14, 0.7);
+}
+
+.salon-card-media {
+  position: relative;
+  height: 280px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.salon-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.salon-card-luxury:hover .salon-card-img {
+  transform: scale(1.08);
+}
+
+.salon-card-badge-left {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: rgba(9, 8, 7, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: var(--primary);
+  padding: 0.3rem 0.65rem;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  z-index: 5;
+}
+
+.salon-card-badge-right {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(9, 8, 7, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  padding: 0.3rem 0.6;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  z-index: 5;
+}
+
+.salon-card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.salon-card-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.35rem;
+}
+
+.salon-card-address {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+  flex: 1;
+}
+
+.salon-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 1rem;
+}
+
+.salon-card-hours {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.salon-card-link {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 0.85rem;
+}
+
+/* Map grid layout */
+.map-grid-luxury {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 4rem;
+  align-items: center;
+}
+
 @media (max-width: 768px) {
   .logo-img {
-    height: 70px;
+    height: 40px;
   }
   
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+  }
+  
+  .hero-text-container {
+    align-items: center;
+  }
+  
+  .hero-collage-container {
+    justify-content: center;
+  }
+  
+  .hero-collage-wrapper {
+    max-width: 320px;
+    height: 380px;
+  }
+  
+  .hero-img-sub-wrapper {
+    width: 130px;
+    height: 130px;
+    bottom: -20px;
+    left: -20px;
+    border-width: 4px;
+  }
+
+  .services-grid-luxury {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .service-card-luxury {
+    padding: 1.5rem;
+    min-height: auto;
+  }
+  
+  .salons-grid-luxury {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .salon-card-media {
+    height: 200px;
+  }
+  
+  .map-grid-luxury {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .services-grid-luxury {
+    grid-template-columns: 1fr;
+  }
+  
+  .salons-grid-luxury {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 768px) {
+  /* Search bar stacks vertically on mobile */
   .search-container-mobile {
     flex-direction: column !important;
     border-radius: var(--radius-lg) !important;
     padding: 1rem !important;
-    gap: 1rem !important;
+    gap: 0.75rem !important;
+    max-width: 100% !important;
   }
-  
+
   .search-buttons-container {
     width: 100%;
     gap: 0.5rem !important;
+    display: flex !important;
   }
-  
+
   .search-btn-mobile {
-    flex: 1;
-    justify-content: center;
-    padding: 0.75rem 0.5rem !important;
-    font-size: 0.85rem !important;
+    flex: 1 !important;
+    justify-content: center !important;
+    padding: 0.85rem 0.5rem !important;
+    font-size: 0.9rem !important;
   }
 
-  .grid {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 10px !important;
+  /* Salon recommended cards: 2 columns on mobile */
+  .md-grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
   }
 
-  .card {
-    margin: 0 1rem;
-    max-width: 100%;
+  /* Services stay 2 col on mobile (set at component level) */
+  .grid-cols-2 {
+    gap: 12px !important;
   }
 
+  /* Section containers get smaller horizontal padding */
+  .container {
+    padding: 0 1rem !important;
+  }
+
+  /* Section titles responsive scaling */
   h1 {
-    font-size: 2.25rem !important;
+    font-size: clamp(2rem, 9vw, 2.75rem) !important;
     line-height: 1.2 !important;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 6vw, 2rem) !important;
+  }
+
+  h3 {
+    font-size: clamp(1.1rem, 4vw, 1.4rem) !important;
+  }
+
+  /* Cards have smaller padding and no side margin */
+  .card {
+    padding: 1.25rem !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  /* Generic single-col override for non-salon grids */
+  .grid:not(.md-grid-cols-4):not(.grid-cols-2) {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
   }
 }
 /* Leaflet Premium Theme */
@@ -398,37 +800,64 @@ button {
 
 /* ===== MOBILE RESPONSIVE TWEAKS FOR DASHBOARD ===== */
 @media (max-width: 640px) {
-  h1 { font-size: 1.5rem !important; }
-  h2 { font-size: 1.25rem !important; }
-  p, span, div { font-size: 0.9rem; }
-  
-  .btn { 
-    padding: 0.5rem 0.85rem !important; 
-    font-size: 0.8rem !important; 
+  h1 { font-size: clamp(1.5rem, 7vw, 2rem) !important; line-height: 1.2 !important; }
+  h2 { font-size: clamp(1.25rem, 5vw, 1.6rem) !important; }
+  h3 { font-size: clamp(1rem, 4vw, 1.25rem) !important; }
+
+  .btn {
+    padding: 0.55rem 1rem !important;
+    font-size: 0.85rem !important;
   }
-  
-  th, td { 
-    padding: 0.75rem 0.5rem !important; 
-    font-size: 0.85rem !important; 
+
+  th, td {
+    padding: 0.75rem 0.5rem !important;
+    font-size: 0.8rem !important;
   }
-  
-  .card { 
-    padding: 1rem !important; 
-    border-radius: var(--radius-md) !important; 
-    margin-bottom: 1rem !important;
+
+  .card {
+    padding: 1rem !important;
+    border-radius: var(--radius-md) !important;
+    margin-bottom: 0.75rem !important;
   }
-  
+
   /* Make tables horizontally scrollable on small screens */
-  table { 
-    display: block; 
-    overflow-x: auto; 
-    white-space: nowrap; 
-    width: 100%; 
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
   }
-  
+
   /* Make inputs smaller */
   .input, select, input {
     padding: 0.6rem !important;
     font-size: 0.9rem !important;
   }
 }
+
+/* ===== MOBILE NAV LINKS HIDDEN ON SMALL SCREENS ===== */
+@media (max-width: 768px) {
+  .nav-links-desktop {
+    display: none !important;
+  }
+}
+
+/* ===== SALON SUBPAGE MOBILE ===== */
+@media (max-width: 768px) {
+  .mainGrid {
+    grid-template-columns: 1fr !important;
+    margin-top: 1.5rem !important;
+    gap: 1.5rem !important;
+    padding: 0 0 3rem !important;
+  }
+}
+
+/* ===== MAP FLOATING CARD MOBILE ===== */
+@media (max-width: 480px) {
+  .map-floating-card {
+    width: calc(100% - 1.5rem) !important;
+    left: 0.75rem !important;
+    right: 0.75rem !important;
+  }
+}
+
