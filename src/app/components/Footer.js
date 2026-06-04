@@ -27,15 +27,15 @@ export default async function Footer() {
           </div>
 
           {/* Copyright in Center */}
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', textAlign: 'center', margin: '0 auto' }}>
+          <p style={{ color: '#e2e8f0', fontSize: '0.95rem', fontWeight: 500, textAlign: 'center', margin: '0 auto' }}>
             {settings?.footerText || `© ${new Date().getFullYear()} ${siteTitle}.al - Të gjitha të drejtat të rezervuara.`}
           </p>
 
           {/* Links on Right */}
-          <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.85rem' }}>
-            <Link href="/#sallonet" className="footer-link" style={{ color: 'var(--text-muted)' }}>Privatësia</Link>
-            <Link href="/#sallonet" className="footer-link" style={{ color: 'var(--text-muted)' }}>Kushtet</Link>
-            <Link href="/#sallonet" className="footer-link" style={{ color: 'var(--text-muted)' }}>Kontakt</Link>
+          <div style={{ display: 'flex', gap: '1.5rem', fontSize: '1.05rem', fontWeight: 700, fontFamily: "var(--font-heading), 'Outfit', sans-serif" }}>
+            <Link href="/#sallonet" className="footer-link" style={{ color: '#ffffff', letterSpacing: '0.03em' }}>Privatësia</Link>
+            <Link href="/#sallonet" className="footer-link" style={{ color: '#ffffff', letterSpacing: '0.03em' }}>Kushtet</Link>
+            <Link href="/#sallonet" className="footer-link" style={{ color: '#ffffff', letterSpacing: '0.03em' }}>Kontakt</Link>
           </div>
         </div>
       </div>

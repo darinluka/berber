@@ -34,10 +34,11 @@ export default async function Navbar() {
         <div className="flex items-center gap-8 nav-links-desktop" style={{ display: 'flex' }}>
           <style dangerouslySetInnerHTML={{__html: `
             .nav-link-item {
-              color: var(--text-muted);
-              font-weight: 600;
-              font-size: 0.95rem;
-              letter-spacing: 0.01em;
+              color: #ffffff;
+              font-weight: 700;
+              font-size: 1.1rem;
+              font-family: var(--font-heading), 'Outfit', sans-serif;
+              letter-spacing: 0.05em;
               transition: color 0.2s ease;
               text-decoration: none;
             }
