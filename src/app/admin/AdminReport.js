@@ -85,8 +85,9 @@ export default function AdminReport() {
         className="btn btn-primary" 
         onClick={handleGenerateReport}
         disabled={loading}
+        style={{ whiteSpace: 'nowrap', flexShrink: 0, padding: '0.75rem 1.5rem', minHeight: '42px' }}
       >
-        {loading ? "Duke gjeneruar..." : "Gjenero Raport i plotë"}
+        {loading ? "Duke gjeneruar..." : "Gjenero Raportin e plotë"}
       </button>
     </div>
   );

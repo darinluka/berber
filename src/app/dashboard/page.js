@@ -129,7 +129,7 @@ export default async function DashboardOverview() {
         ))}
       </div>
 
-      <div className="grid gap-8 mt-8" style={{ gridTemplateColumns: "1.5fr 1fr" }}>
+      <div className="dashboard-grid-2col mt-8">
         <div className="card" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
           <h3 className="mb-8" style={{ fontSize: "1.15rem", fontFamily: 'var(--font-serif)', fontWeight: 500, color: '#fff' }}>Performanca Javore</h3>
           <div

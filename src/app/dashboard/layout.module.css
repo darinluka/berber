@@ -5,6 +5,7 @@
   width: 100%;
   background-color: var(--background);
   overflow: hidden;
+  font-family: var(--font-heading), 'Outfit', sans-serif;
 }
 
 /* ─── Sidebar ─────────────────────────────────────────── */

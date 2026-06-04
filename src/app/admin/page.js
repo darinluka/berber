@@ -43,7 +43,7 @@ export default async function AdminOverview() {
       </div>
 
       {/* Admin Stats Grid */}
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid gap-6" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
         {stats.map((stat, i) => (
           <div key={i} className="card">
             <div className="flex justify-between items-start mb-4">
@@ -56,7 +56,7 @@ export default async function AdminOverview() {
         ))}
       </div>
 
-      <div className="grid gap-8 mt-8" style={{ gridTemplateColumns: '1.5fr 1fr' }}>
+      <div className="dashboard-grid-2col mt-8">
         {/* Salon Management Preview */}
         <div className="card">
           <div className="flex justify-between items-center mb-6">
