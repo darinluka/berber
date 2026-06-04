@@ -1,10 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 
 export default function NavbarMobileClient({ userName, userRole, userImage, userEmail, logoutAction }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const close = () => setMenuOpen(false);
@@ -112,18 +118,21 @@ export default function NavbarMobileClient({ userName, userRole, userImage, user
           display: flex;
           align-items: center;
           gap: 0.75rem;
-          padding: 0.9rem 1rem;
+          padding: 1.1rem 1.25rem;
           border-radius: var(--radius-md);
-          color: var(--text-muted);
+          color: #ffffff;
           text-decoration: none;
-          font-weight: 600;
-          font-size: 0.95rem;
+          font-weight: 700;
+          font-size: 1.2rem;
+          font-family: var(--font-heading), 'Outfit', sans-serif;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
           border: 1px solid transparent;
           transition: all 0.2s ease;
         }
         .mob-nav-link:hover, .mob-nav-link:active {
-          background: rgba(212,175,55,0.07);
-          border-color: rgba(212,175,55,0.2);
+          background: rgba(212,175,55,0.1);
+          border-color: rgba(212,175,55,0.3);
           color: var(--primary);
         }
         .mob-nav-divider {
@@ -181,7 +190,7 @@ export default function NavbarMobileClient({ userName, userRole, userImage, user
       </button>
 
       {/* Slide-in drawer */}
-      {menuOpen && (
+      {menuOpen && mounted && createPortal(
         <div className="mob-drawer-wrap" role="dialog" aria-modal="true" aria-label="Menu kryesore">
           <div className="mob-drawer-backdrop" onClick={() => setMenuOpen(false)} />
           <div className="mob-drawer-panel">
@@ -238,7 +247,8 @@ export default function NavbarMobileClient({ userName, userRole, userImage, user
               </Link>
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
