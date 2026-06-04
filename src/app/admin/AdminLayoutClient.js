@@ -5,6 +5,7 @@ import styles from "../dashboard/layout.module.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "../components/Logo";
+import { logoutUser } from "../actions/auth";
 
 export default function AdminLayoutClient({ children }) {
   const pathname = usePathname();
@@ -52,10 +53,17 @@ export default function AdminLayoutClient({ children }) {
           })}
         </nav>
         <div style={{ padding: '1.5rem', borderTop: '1px solid var(--border)' }}>
-          <Link href="/login" className={styles.logoutBtn} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.875rem', padding: '0.8rem 1rem' }}>
+          <button 
+            onClick={async () => {
+              await logoutUser();
+              window.location.href = "/login";
+            }}
+            className={styles.logoutBtn} 
+            style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.875rem', padding: '0.8rem 1rem', width: '100%', background: 'none', border: 'none', cursor: 'pointer' }}
+          >
             <span>🚪</span>
             <span>Dil nga Admin</span>
-          </Link>
+          </button>
         </div>
       </aside>
 

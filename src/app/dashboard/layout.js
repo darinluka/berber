@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { ThemeToggle } from "../components/ThemeToggle";
 import Logo from "../components/Logo";
 import { getSalon } from "../actions/salons";
+import { logoutUser } from "../actions/auth";
 
 export default function DashboardLayout({ children }) {
   const pathname = usePathname();
@@ -212,11 +213,18 @@ export default function DashboardLayout({ children }) {
           })}
         </nav>
 
-        <div className={styles.sidebarFooter}>
-          <Link href="/login" className={styles.logoutBtn}>
+         <div className={styles.sidebarFooter}>
+          <button 
+            onClick={async () => {
+              await logoutUser();
+              window.location.href = "/login";
+            }}
+            className={styles.logoutBtn}
+            style={{ width: '100%', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}
+          >
             <span>🚪</span>
             {!isCollapsed && <span>Dil nga llogaria</span>}
-          </Link>
+          </button>
         </div>
       </aside>
 
