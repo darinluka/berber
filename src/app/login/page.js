@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Logo from "../components/Logo";
-import { loginUser, loginOrRegisterWithGoogle } from "../actions/auth";
+import { loginUser, loginOrRegisterWithGoogle, getCurrentUser } from "../actions/auth";
 
 function parseJwt(token) {
   try {
@@ -31,6 +31,17 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [showWelcomePopup, setShowWelcomePopup] = useState(false);
   const [approvedSalonName, setApprovedSalonName] = useState("");
+
+  // Redirect already-logged-in users
+  useEffect(() => {
+    getCurrentUser().then(user => {
+      if (user) {
+        if (user.role === "ADMIN") router.replace("/admin");
+        else if (user.role === "SALON_OWNER") router.replace("/dashboard");
+        else router.replace("/");
+      }
+    });
+  }, []);
 
 
 
@@ -176,7 +187,12 @@ export default function Login() {
           </div>
 
           <div className={styles.formGroup}>
-            <label className={styles.label}>Fjalëkalimi</label>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+              <label className={styles.label} style={{ margin: 0 }}>Fjalëkalimi</label>
+              <Link href="/forgot-password" style={{ fontSize: '0.8rem', color: 'var(--primary)', fontWeight: 600, textDecoration: 'none' }}>
+                Harruat fjalëkalimin?
+              </Link>
+            </div>
             <input
               type="password"
               className="input"

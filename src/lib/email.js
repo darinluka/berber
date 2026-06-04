@@ -61,6 +61,26 @@ export async function sendOtpEmail(email, code) {
   });
 }
 
+export async function sendPasswordResetEmail(email, code) {
+  return sendMail({
+    to: email,
+    subject: `Kodi i rivendosjes së fjalëkalimit – Berber.al`,
+    text: `Kodi juaj për rivendosjen e fjalëkalimit: ${code}\nSkadon pas 10 minutash.`,
+    html: `
+    <div style="font-family:Arial,sans-serif;max-width:480px;margin:0 auto;padding:32px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;color:#1e293b;">
+      <div style="text-align:center;margin-bottom:24px;">${LOGO_HTML}</div>
+      <h2 style="text-align:center;font-size:1.2rem;margin-bottom:8px;">Rivendosni fjalëkalimin tuaj</h2>
+      <p style="text-align:center;color:#64748b;margin-bottom:32px;">Futni kodin e mëposhtëm për të rivendosur fjalëkalimin e llogarisë suaj.</p>
+      <div style="background:#f8fafc;border:2px dashed #c29545;border-radius:12px;padding:32px;text-align:center;margin-bottom:24px;">
+        <div style="letter-spacing:0.5rem;font-size:2.5rem;font-weight:800;color:#c29545;font-family:monospace;">${code}</div>
+        <p style="color:#64748b;font-size:0.85rem;margin-top:12px;margin-bottom:0;">I vlefshëm për <strong>10 minuta</strong></p>
+      </div>
+      <p style="font-size:0.85rem;color:#94a3b8;text-align:center;margin:0;">Nëse nuk keni kërkuar këtë kod, injoroni këtë mesazh.</p>
+      ${FOOTER_HTML}
+    </div>`,
+  });
+}
+
 // ─── 2. Booking Application Email (PENDING) ─────────────────────────────────
 export async function sendBookingApplicationEmail(booking) {
   const { client, service, barber, salon, date } = booking;

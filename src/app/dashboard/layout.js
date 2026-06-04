@@ -180,7 +180,7 @@ export default function DashboardLayout({ children }) {
               {isCollapsed ? (
                 <div style={{ fontWeight: 800, color: 'var(--primary)', fontSize: '1.5rem' }}>B.</div>
               ) : (
-                <Logo initialTitle="Berber.al" />
+                <Logo initialTitle="Berber.al" fontSize="1.5rem" />
               )}
             </Link>
           </div>

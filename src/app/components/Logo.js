@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function Logo({ initialTitle }) {
+export default function Logo({ initialTitle, fontSize }) {
   const [error, setError] = useState(false);
 
   return (
@@ -16,7 +16,14 @@ export default function Logo({ initialTitle }) {
           onError={() => setError(true)}
         />
       ) : (
-        <span style={{ color: 'var(--foreground)', fontWeight: 'bold', fontSize: '1.5rem' }}>
+        <span style={{ 
+          fontFamily: 'var(--font-logo, "TypoGraphica", "Outfit", sans-serif)', 
+          fontWeight: 900, 
+          fontSize: fontSize || '2.6rem',
+          letterSpacing: '0.02em',
+          color: 'var(--foreground)',
+          textTransform: 'uppercase'
+        }}>
           {initialTitle?.replace('.al', '') || 'Berberi'}
           <span style={{ color: 'var(--primary)' }}>.al</span>
         </span>

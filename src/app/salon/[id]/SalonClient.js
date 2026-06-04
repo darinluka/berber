@@ -478,15 +478,27 @@ export default function SalonClient({ salon, services, barbers }) {
                             cursor: isBusy ? 'not-allowed' : 'pointer', 
                             background: isBusy ? 'rgba(239, 68, 68, 0.15)' : (isSelected ? 'var(--primary)' : 'var(--secondary)'),
                             color: isBusy ? 'var(--error)' : (isSelected ? '#000' : 'var(--foreground)'),
-                            border: isSelected ? '1px solid var(--primary)' : '1px solid var(--border)',
-                            opacity: isBusy ? 0.5 : 1,
+                            border: isBusy ? '1px solid var(--error)' : (isSelected ? '1px solid var(--primary)' : '1px solid var(--border)'),
+                            opacity: 1,
                             fontWeight: 600,
-                            padding: '0.6rem 0.25rem',
-                            fontSize: '0.85rem'
+                            padding: isBusy ? '0.45rem 0.25rem' : '0.6rem 0.25rem',
+                            fontSize: '0.85rem',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            lineHeight: '1.2'
                           }}
                           onClick={() => !isBusy && setBookingData({...bookingData, time})}
                         >
-                          {time}
+                          {isBusy ? (
+                            <>
+                              <span style={{ textDecoration: 'line-through', opacity: 0.75 }}>{time}</span>
+                              <span style={{ fontSize: '0.62rem', fontWeight: 800, marginTop: '2px', color: 'var(--error)' }}>Zënë 🔴</span>
+                            </>
+                          ) : (
+                            time
+                          )}
                         </button>
                       );
                     })}

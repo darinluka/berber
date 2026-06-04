@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { sendOtpEmail, sendSalonRegistrationEmail } from "@/lib/email";
+import { sendOtpEmail, sendSalonRegistrationEmail, sendPasswordResetEmail } from "@/lib/email";
 import { cookies } from "next/headers";
 import bcrypt from "bcryptjs";
 
@@ -350,5 +350,102 @@ export async function logoutUser() {
     return { success: true };
   } catch (error) {
     return { success: false };
+  }
+}
+
+export async function sendPasswordResetCode(email) {
+  try {
+    if (!email || !email.includes("@")) {
+      return { success: false, error: "Email i pavlefshëm." };
+    }
+
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (!existingUser) {
+      return { success: false, error: "Ky email nuk është i regjistruar në platformë." };
+    }
+
+    await prisma.verificationToken.updateMany({
+      where: { email, used: false },
+      data: { used: true },
+    });
+
+    const code = generateOtp();
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+
+    await prisma.verificationToken.create({
+      data: { email, code, expiresAt },
+    });
+
+    await sendPasswordResetEmail(email, code);
+
+    return { success: true };
+  } catch (error) {
+    console.error("[AUTH] sendPasswordResetCode error:", error);
+    return { success: false, error: "Gabim gjatë dërgimit të kodit. Provo sërish." };
+  }
+}
+
+export async function checkResetCode(email, code) {
+  try {
+    const token = await prisma.verificationToken.findFirst({
+      where: {
+        email,
+        code,
+        used: false,
+        expiresAt: { gt: new Date() },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (!token) {
+      return { success: false, error: "Kodi është i pasaktë ose ka skaduar." };
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("[AUTH] checkResetCode error:", error);
+    return { success: false, error: "Gabim gjatë verifikimit. Provo sërish." };
+  }
+}
+
+export async function resetPasswordWithCode(email, code, newPassword) {
+  try {
+    if (!newPassword || newPassword.length < 6) {
+      return { success: false, error: "Fjalëkalimi duhet të jetë të paktën 6 karaktere." };
+    }
+
+    const token = await prisma.verificationToken.findFirst({
+      where: {
+        email,
+        code,
+        used: false,
+        expiresAt: { gt: new Date() },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (!token) {
+      return { success: false, error: "Kodi është i pasaktë ose ka skaduar." };
+    }
+
+    // Mark token as used
+    await prisma.verificationToken.update({
+      where: { id: token.id },
+      data: { used: true },
+    });
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+    // Update user password
+    await prisma.user.update({
+      where: { email },
+      data: { password: hashedPassword },
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("[AUTH] resetPasswordWithCode error:", error);
+    return { success: false, error: "Gabim gjatë rivendosjes së fjalëkalimit. Provo sërish." };
   }
 }
