@@ -12,7 +12,7 @@ export default function AdminSettings() {
     footerText: "© 2026 Berber.al. Të gjitha të drejtat e rezervuara.",
     contactEmail: "info@berber.al"
   });
-  const [adminEmail, setAdminEmail] = useState("admin@berber.al");
+  const [adminEmail, setAdminEmail] = useState("lukadarin178@gmail.com");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 

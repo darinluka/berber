@@ -165,13 +165,13 @@ export async function loginUser(email, password) {
     }
 
     // Ensure admin user exists in DB
-    if (email === "admin@berber.al") {
+    if (email === "admin@berber.al" || email === "lukadarin178@gmail.com") {
       const adminExists = await prisma.user.findUnique({ where: { email } });
       if (!adminExists) {
         const hashedPassword = await bcrypt.hash("admin", 12);
         await prisma.user.create({
           data: {
-            email: "admin@berber.al",
+            email,
             name: "Super Admin",
             password: hashedPassword,
             role: "ADMIN"
