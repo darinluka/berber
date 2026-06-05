@@ -1,3 +1,4 @@
+// Triggering fresh redeployment of the original stable version.
 import { Inter, Outfit, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
