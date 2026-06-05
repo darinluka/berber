@@ -311,6 +311,9 @@ export default function HomeClient({ initialSalons }) {
           .hero-section-mobile {
             padding: 7rem 0 5rem !important;
           }
+          #sherbimet, #sallonet, #harta {
+            padding: 3.5rem 1rem !important;
+          }
           .editorial-card {
             height: 410px !important;
           }

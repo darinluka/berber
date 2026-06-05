@@ -123,7 +123,7 @@ export default function NavbarMobileClient({ userName, userRole, userImage, user
           color: #ffffff;
           text-decoration: none;
           font-weight: 700;
-          font-size: 1.2rem;
+          font-size: 15px;
           font-family: var(--font-heading), 'Outfit', sans-serif;
           text-transform: uppercase;
           letter-spacing: 0.08em;
