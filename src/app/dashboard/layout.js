@@ -36,6 +36,7 @@ export default function DashboardLayout({ children }) {
     { name: "Dashboard", path: "/dashboard", icon: "📊" },
     { name: "Kalendari", path: "/dashboard/calendar", icon: "📅" },
     { name: "Klientët", path: "/dashboard/crm", icon: "👥" },
+    { name: "Vlerësimet", path: "/dashboard/reviews", icon: "⭐" },
     { name: "Shërbimet", path: "/dashboard/services", icon: "💈" },
     { name: "Stafi", path: "/dashboard/staff", icon: "✂️" },
     { name: "Financa", path: "/dashboard/finance", icon: "💰" },

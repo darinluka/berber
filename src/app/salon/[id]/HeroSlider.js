@@ -77,7 +77,7 @@ export default function HeroSlider({ salon }) {
           {salon.name}
         </h1>
         <div className={styles.meta} style={{ display: 'flex', gap: '1.5rem', fontSize: '0.9rem', flexWrap: 'wrap', opacity: 0.9 }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>⭐ <strong style={{ color: 'var(--primary)' }}>{salon.rating || 4.9}</strong> • {salon.reviewsCount || 234} vlerësime</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>⭐ <strong style={{ color: 'var(--primary)' }}>{salon.rating}</strong> • {salon.reviewsCount} {salon.reviewsCount === 1 ? 'vlerësim' : 'vlerësime'}</span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>📍 {salon.address || "Rruga Myslym Shyri, Tiranë"}</span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>🕒 {salon.hours || "09:00 - 21:00"}</span>
         </div>

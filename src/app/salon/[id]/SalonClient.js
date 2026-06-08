@@ -4,8 +4,9 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import styles from "./salon.module.css";
 import { getBusySlots, createBooking } from "@/app/actions/bookings";
+import { createReview } from "@/app/actions/reviews";
 
-export default function SalonClient({ salon, services, barbers }) {
+export default function SalonClient({ salon, services, barbers, currentUser, reviews = [] }) {
   const [step, setStep] = useState(1);
   const dateScrollRef = useRef(null);
 
@@ -25,10 +26,30 @@ export default function SalonClient({ salon, services, barbers }) {
     serviceId: "",
     date: "",
     time: "",
-    name: "",
-    phone: "",
-    email: ""
+    name: currentUser?.name || "",
+    phone: currentUser?.phone || "",
+    email: currentUser?.email || ""
   });
+
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [newReview, setNewReview] = useState({ rating: 5, comment: "", clientName: currentUser?.name || "" });
+  const [reviewLoading, setReviewLoading] = useState(false);
+  const [localReviews, setLocalReviews] = useState(reviews);
+
+  useEffect(() => {
+    if (currentUser) {
+      setBookingData(prev => ({
+        ...prev,
+        name: currentUser.name || prev.name,
+        phone: currentUser.phone || prev.phone,
+        email: currentUser.email || prev.email
+      }));
+      setNewReview(prev => ({
+        ...prev,
+        clientName: currentUser.name || prev.clientName
+      }));
+    }
+  }, [currentUser]);
 
   const timeSlots = [
     "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", 
@@ -261,6 +282,57 @@ export default function SalonClient({ salon, services, barbers }) {
             </div>
           </div>
         )}
+
+        {/* Vlerësimet Section */}
+        <div className={styles.infoCard}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+            <h2 className={styles.sectionTitle} style={{ margin: 0, fontFamily: 'var(--font-serif)', fontWeight: 500 }}>Vlerësimet</h2>
+            <button 
+              onClick={() => setShowReviewModal(true)} 
+              className="btn btn-primary"
+              style={{ padding: '0.5rem 1.25rem', borderRadius: 'var(--radius-full)', fontSize: '0.85rem', fontWeight: 650 }}
+            >
+              ⭐ Shkruaj Vlerësim
+            </button>
+          </div>
+
+          {localReviews.length > 0 ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+              {localReviews.map((rev) => (
+                <div 
+                  key={rev.id} 
+                  style={{ 
+                    padding: '1.25rem', 
+                    background: 'var(--secondary)', 
+                    border: '1px solid var(--border)', 
+                    borderRadius: '12px' 
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                    <div>
+                      <strong style={{ color: '#fff', fontSize: '0.95rem' }}>{rev.clientName}</strong>
+                      <span className="text-muted" style={{ fontSize: '0.75rem', marginLeft: '0.75rem' }}>
+                        {new Date(rev.createdAt).toLocaleDateString('sq-AL', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </span>
+                    </div>
+                    <div style={{ color: 'var(--primary)', fontWeight: 700, fontSize: '0.9rem' }}>
+                      {"★".repeat(rev.rating)}{"☆".repeat(5 - rev.rating)}
+                    </div>
+                  </div>
+                  {rev.comment && (
+                    <p className="text-muted" style={{ fontSize: '0.9rem', lineHeight: '1.5', margin: 0 }}>
+                      "{rev.comment}"
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8 text-muted" style={{ background: 'var(--secondary)', borderRadius: 'var(--radius-md)', fontSize: '0.95rem' }}>
+              Nuk ka ende asnjë vlerësim për këtë sallon. Bëhu i pari që lë një vlerësim!
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Right Side: Sticky Booking Flow (Preserved Steps & Logics, Upgraded visual design) */}
@@ -536,15 +608,36 @@ export default function SalonClient({ salon, services, barbers }) {
               <div className="grid gap-4">
                 <div>
                   <label className="text-muted" style={{ fontSize: '0.8rem', marginBottom: '0.4rem', display: 'block' }}>Emri Mbiemri</label>
-                  <input type="text" className="booking-input-dark" placeholder="Emër Mbiemër" required onChange={(e) => setBookingData({...bookingData, name: e.target.value})} />
+                  <input 
+                    type="text" 
+                    className="booking-input-dark" 
+                    placeholder="Emër Mbiemër" 
+                    required 
+                    value={bookingData.name}
+                    onChange={(e) => setBookingData({...bookingData, name: e.target.value})} 
+                  />
                 </div>
                 <div>
                   <label className="text-muted" style={{ fontSize: '0.8rem', marginBottom: '0.4rem', display: 'block' }}>Numri i Telefonit</label>
-                  <input type="tel" className="booking-input-dark" placeholder="+355 6X XX XX XXX" required onChange={(e) => setBookingData({...bookingData, phone: e.target.value})} />
+                  <input 
+                    type="tel" 
+                    className="booking-input-dark" 
+                    placeholder="+355 6X XX XX XXX" 
+                    required 
+                    value={bookingData.phone}
+                    onChange={(e) => setBookingData({...bookingData, phone: e.target.value})} 
+                  />
                 </div>
                 <div>
                   <label className="text-muted" style={{ fontSize: '0.8rem', marginBottom: '0.4rem', display: 'block' }}>Email</label>
-                  <input type="email" className="booking-input-dark" placeholder="email@shembull.com" required onChange={(e) => setBookingData({...bookingData, email: e.target.value})} />
+                  <input 
+                    type="email" 
+                    className="booking-input-dark" 
+                    placeholder="email@shembull.com" 
+                    required 
+                    value={bookingData.email}
+                    onChange={(e) => setBookingData({...bookingData, email: e.target.value})} 
+                  />
                 </div>
               </div>
 
@@ -586,6 +679,147 @@ export default function SalonClient({ salon, services, barbers }) {
           )}
         </div>
       </div>
+
+      {/* Review Modal */}
+      {showReviewModal && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(9, 9, 11, 0.85)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 99999,
+            padding: '1.5rem',
+          }}
+        >
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '460px',
+              background: 'var(--surface)',
+              border: '1px solid var(--border)',
+              borderRadius: '20px',
+              padding: '2rem',
+              boxShadow: '0 30px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(212,175,55,0.1)',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+              <h3 style={{ margin: 0, fontSize: '1.35rem', fontFamily: 'var(--font-serif)', fontWeight: 500, color: 'var(--primary)' }}>
+                Vlerëso Sallonin
+              </h3>
+              <button 
+                onClick={() => setShowReviewModal(false)}
+                style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '1.25rem', cursor: 'pointer' }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <form 
+              onSubmit={async (e) => {
+                e.preventDefault();
+                setReviewLoading(true);
+                const res = await createReview({
+                  rating: newReview.rating,
+                  comment: newReview.comment,
+                  clientName: newReview.clientName,
+                  clientId: currentUser?.id,
+                  salonId: salon.id
+                });
+                if (res.success) {
+                  setLocalReviews([res.review, ...localReviews]);
+                  setShowReviewModal(false);
+                  setNewReview({ rating: 5, comment: "", clientName: currentUser?.name || "" });
+                  alert("Faleminderit për vlerësimin tuaj!");
+                } else {
+                  alert("Gabim: " + res.error);
+                }
+                setReviewLoading(false);
+              }}
+            >
+              {/* Star Selection */}
+              <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
+                <label className="text-muted" style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.5rem' }}>
+                  Numri i yjeve
+                </label>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setNewReview({ ...newReview, rating: star })}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        fontSize: '2rem',
+                        cursor: 'pointer',
+                        color: star <= newReview.rating ? 'var(--primary)' : 'rgba(255,255,255,0.15)',
+                        transition: 'transform 0.15s'
+                      }}
+                      onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.2)'}
+                      onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+                    >
+                      ★
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Name Input */}
+              <div style={{ marginBottom: '1.25rem' }}>
+                <label className="text-muted" style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.4rem' }}>
+                  Emri & Mbiemri
+                </label>
+                <input
+                  type="text"
+                  required
+                  className="booking-input-dark"
+                  value={newReview.clientName}
+                  onChange={e => setNewReview({ ...newReview, clientName: e.target.value })}
+                  placeholder="Emri Mbiemri juaj..."
+                />
+              </div>
+
+              {/* Comment Textarea */}
+              <div style={{ marginBottom: '1.5rem' }}>
+                <label className="text-muted" style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.4rem' }}>
+                  Komenti juaj (Opsional)
+                </label>
+                <textarea
+                  className="booking-input-dark"
+                  style={{ minHeight: '100px', resize: 'vertical', fontFamily: 'inherit' }}
+                  value={newReview.comment}
+                  onChange={e => setNewReview({ ...newReview, comment: e.target.value })}
+                  placeholder="Shkruani përshtypjet tuaja këtu..."
+                />
+              </div>
+
+              <div style={{ display: 'flex', gap: '0.75rem' }}>
+                <button
+                  type="button"
+                  onClick={() => setShowReviewModal(false)}
+                  className="btn btn-secondary"
+                  style={{ flex: 1, borderRadius: 'var(--radius-full)' }}
+                >
+                  Anulo
+                </button>
+                <button
+                  type="submit"
+                  disabled={reviewLoading}
+                  className="btn btn-primary"
+                  style={{ flex: 1, borderRadius: 'var(--radius-full)', fontWeight: 700 }}
+                >
+                  {reviewLoading ? "Duke u dërguar..." : "Dërgo Vlerësimin"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

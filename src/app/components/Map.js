@@ -249,7 +249,7 @@ export default function Map({ salons, userLocation, isNearMeActive }) {
               📍 {selectedSalon.address || "Tiranë, Shqipëri"}
             </p>
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.7rem", color: "var(--primary)", fontWeight: 700 }}>
-              <span>⭐ {selectedSalon.rating || "4.9"}</span>
+              <span>⭐ {selectedSalon.rating || "4.8"}</span>
               <span style={{ color: "rgba(255,255,255,0.25)" }}>•</span>
               <span style={{ color: "rgba(255,255,255,0.5)" }}>Master Barber</span>
             </div>
