@@ -49,7 +49,6 @@ export default async function Navbar() {
             }
           `}} />
           <Link href="/#sallonet"  className="nav-link-item">Sallonet</Link>
-          <Link href="/#sherbimet" className="nav-link-item">Shërbimet</Link>
           <Link href="/#harta"     className="nav-link-item">Harta</Link>
         </div>
         

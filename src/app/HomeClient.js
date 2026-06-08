@@ -311,7 +311,7 @@ export default function HomeClient({ initialSalons }) {
           .hero-section-mobile {
             padding: 7rem 0 5rem !important;
           }
-          #sherbimet, #sallonet, #harta {
+          #sallonet, #harta {
             padding: 3.5rem 1rem !important;
           }
           .editorial-card {
@@ -401,42 +401,6 @@ export default function HomeClient({ initialSalons }) {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Services Grid Section */}
-      <section className="container" style={{ padding: "6rem 0" }} id="sherbimet">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3.5rem", width: "100%", flexWrap: "wrap", gap: "1rem" }}>
-          <div>
-            <span className="section-badge">Shërbimet</span>
-            <h2 className="section-title-serif">Shërbime të Kërkuara</h2>
-            <p className="text-muted" style={{ marginTop: "0.5rem" }}>Nga prerjet klasike tek trajtimet moderne</p>
-          </div>
-          <Link href="#sallonet" className="text-muted" style={{ fontSize: "0.9rem", color: "var(--primary)", fontWeight: 700, display: "flex", alignItems: "center", gap: "0.25rem" }}>
-            Shiko Shërbimet <span style={{ transition: "transform 0.2s" }} onMouseEnter={e => e.currentTarget.style.transform = "translateX(3px)"} onMouseLeave={e => e.currentTarget.style.transform = "none"}>→</span>
-          </Link>
-        </div>
-        
-        <div className="services-grid-luxury">
-          {[
-            { num: "01", name: "Prerje Flokësh", desc: "Një prerje e personalizuar që përshtatet me tiparet dhe stilin tuaj." },
-            { num: "02", name: "Rrojë & Mjekër", desc: "Rrojë klasike me peshqir të ngrohtë dhe stilim profesional mjekre." },
-            { num: "03", name: "Stilime Flokësh", desc: "Nga stilet klasike tek ato moderne, stilim profesional për çdo rast." },
-            { num: "04", name: "Larje & Stilim", desc: "Larje me produkte premium dhe stilim i plotë për flokët tuaj." },
-            { num: "05", name: "Masazh Koke", desc: "Masazh relaksues i kokës që nxit qarkullimin dhe redukton stresin." },
-            { num: "06", name: "Trajtime Fytyre", desc: "Pastrim i thellë, hidrati dhe kujdes i dedikuar për lëkurën." }
-          ].map((item, idx) => (
-            <div key={idx} className="service-card-luxury">
-              <div className="service-card-top">
-                <span className="service-number-gold">{item.num}</span>
-                <h3 className="service-card-title">{item.name}</h3>
-                <p className="service-card-desc">{item.desc}</p>
-              </div>
-              <Link href="#sallonet" className="service-card-link">
-                Gjej sallon <span>→</span>
-              </Link>
-            </div>
-          ))}
         </div>
       </section>
 
@@ -634,22 +598,6 @@ export default function HomeClient({ initialSalons }) {
         )}
       </section>
 
-      {/* Quote Section */}
-      <section className="quote-section">
-        <div className="container">
-          <p className="quote-text-serif">
-            "Flokët nuk janë thjesht pamje, por pjesë e identitetit tënd."
-          </p>
-          <div className="quote-image-wrapper">
-            <img 
-              src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=1200&q=80" 
-              alt="Luxury Lounge Area" 
-              className="quote-image" 
-            />
-          </div>
-        </div>
-      </section>
-
       {/* Map Section */}
       <section className="container" style={{ padding: "6rem 0", borderTop: "1px solid rgba(212, 175, 55, 0.05)" }} id="harta">
         <div className="map-grid-luxury">
@@ -671,6 +619,22 @@ export default function HomeClient({ initialSalons }) {
           </div>
           <div>
             <Map salons={filteredSalons} userLocation={userLocation} isNearMeActive={isNearMeActive} />
+          </div>
+        </div>
+      </section>
+
+      {/* Quote Section */}
+      <section className="quote-section">
+        <div className="container">
+          <p className="quote-text-serif">
+            "Flokët nuk janë thjesht pamje, por pjesë e identitetit tënd."
+          </p>
+          <div className="quote-image-wrapper">
+            <img 
+              src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=1200&q=80" 
+              alt="Luxury Lounge Area" 
+              className="quote-image" 
+            />
           </div>
         </div>
       </section>

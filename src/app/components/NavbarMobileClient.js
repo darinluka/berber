@@ -213,7 +213,6 @@ export default function NavbarMobileClient({ userName, userRole, userImage, user
 
             {/* Main nav links */}
             <Link href="/#sallonet"  className="mob-nav-link" onClick={() => setMenuOpen(false)}>✂️ &nbsp;Sallonet</Link>
-            <Link href="/#sherbimet" className="mob-nav-link" onClick={() => setMenuOpen(false)}>💈 &nbsp;Shërbimet</Link>
             <Link href="/#harta"     className="mob-nav-link" onClick={() => setMenuOpen(false)}>📍 &nbsp;Harta</Link>
 
             <div className="mob-nav-divider" />
