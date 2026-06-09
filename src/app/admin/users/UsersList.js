@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { updateUserByAdmin } from "@/app/actions/users";
+import { updateUserByAdmin, deleteUserByAdmin } from "@/app/actions/users";
 
 const ROLE_COLORS = {
   ADMIN:  { bg: 'rgba(239,68,68,0.12)',  color: '#ef4444' },
@@ -10,7 +10,7 @@ const ROLE_COLORS = {
   CLIENT: { bg: 'rgba(16,185,129,0.12)', color: '#10b981' },
 };
 
-export default function UsersList({ initialUsers }) {
+export default function UsersList({ initialUsers, currentUserId }) {
   const [users, setUsers] = useState(initialUsers);
   const [editingUser, setEditingUser] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -39,6 +39,19 @@ export default function UsersList({ initialUsers }) {
       alert("Gabim: " + result.error);
     }
     setLoading(false);
+  };
+
+  const handleDelete = async (user) => {
+    if (window.confirm(`A jeni i sigurt që dëshironi të fshini përdoruesin "${user.name}"? Të gjitha rezervimet e lidhura do të fshihen gjithashtu.`)) {
+      setLoading(true);
+      const result = await deleteUserByAdmin(user.id);
+      if (result.success) {
+        setUsers(prev => prev.filter(u => u.id !== user.id));
+      } else {
+        alert("Gabim: " + result.error);
+      }
+      setLoading(false);
+    }
   };
 
   const filtered = users.filter(u => {
@@ -119,13 +132,32 @@ export default function UsersList({ initialUsers }) {
                     {new Date(user.createdAt).toLocaleDateString('sq-AL')}
                   </td>
                   <td style={{ padding: '1.25rem', textAlign: 'right' }}>
-                    <button
-                      className="btn btn-secondary"
-                      style={{ padding: '0.4rem 0.9rem', fontSize: '0.8rem' }}
-                      onClick={() => openEdit(user)}
-                    >
-                      ✏️ Edito
-                    </button>
+                    <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end', alignItems: 'center' }}>
+                      <button
+                        className="btn btn-secondary"
+                        style={{ padding: '0.4rem 0.9rem', fontSize: '0.8rem' }}
+                        onClick={() => openEdit(user)}
+                      >
+                        ✏️ Edito
+                      </button>
+                      {user.id !== currentUserId && (
+                        <button
+                          className="btn"
+                          style={{
+                            padding: '0.4rem 0.9rem',
+                            fontSize: '0.8rem',
+                            background: 'rgba(239, 68, 68, 0.12)',
+                            color: '#ef4444',
+                            border: '1px solid rgba(239, 68, 68, 0.2)',
+                            cursor: 'pointer'
+                          }}
+                          onClick={() => handleDelete(user)}
+                          disabled={loading}
+                        >
+                          🗑️ Fshi
+                        </button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               );

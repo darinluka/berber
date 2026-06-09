@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
+import { getCurrentUser } from "@/app/actions/auth";
 
 export async function updatePassword(email, newPassword) {
   try {
@@ -74,6 +75,40 @@ export async function updateUserByAdmin(id, data) {
     return { success: true, user };
   } catch (error) {
     console.error("Admin user update error:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function deleteUserByAdmin(id) {
+  try {
+    const currentUser = await getCurrentUser();
+    if (!currentUser || currentUser.role !== "ADMIN") {
+      return { success: false, error: "Ju nuk jeni i autorizuar për të kryer këtë veprim." };
+    }
+
+    if (currentUser.id === id) {
+      return { success: false, error: "Ju nuk mund të fshini veten tuaj." };
+    }
+
+    // Fshi rezervimet (Booking) e lidhura me përdoruesin fillimisht për të shmangur foreign key error
+    await prisma.$transaction([
+      prisma.booking.deleteMany({
+        where: {
+          OR: [
+            { clientId: id },
+            { barberId: id }
+          ]
+        }
+      }),
+      prisma.user.delete({
+        where: { id }
+      })
+    ]);
+
+    revalidatePath("/admin/users");
+    return { success: true };
+  } catch (error) {
+    console.error("Admin user delete error:", error);
     return { success: false, error: error.message };
   }
 }
